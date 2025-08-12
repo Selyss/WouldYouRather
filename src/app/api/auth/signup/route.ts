@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import { db } from "~/server/db";
@@ -10,7 +10,7 @@ const signUpSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const body: unknown = await req.json();
     const { username, password } = signUpSchema.parse(body);
 
     // Check if user already exists
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: error.errors[0]?.message || "Invalid input" },
+        { error: error.errors[0]?.message ?? "Invalid input" },
         { status: 400 }
       );
     }

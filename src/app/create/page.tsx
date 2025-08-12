@@ -84,7 +84,7 @@ export default function CreateQuestionPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Failed to create question");
+        setError(data.error ?? "Failed to create question");
         return;
       }
 

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { z } from "zod";
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const body = await req.json();
+    const body: unknown = await req.json();
     const { optionA, optionB } = createQuestionSchema.parse(body);
 
     const question = await db.question.create({
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: error.errors[0]?.message || "Invalid input" },
+        { error: error.errors[0]?.message ?? "Invalid input" },
         { status: 400 }
       );
     }

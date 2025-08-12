@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { z } from "zod";
@@ -24,7 +24,7 @@ export async function POST(
       );
     }
 
-    const body = await req.json();
+    const body: unknown = await req.json();
     const { choice } = voteSchema.parse(body);
 
     // Check if user already voted on this question (only if logged in)

@@ -94,7 +94,7 @@ export default function HomePage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Failed to submit vote");
+        setError(data.error ?? "Failed to submit vote");
         setIsAnimating(false);
         return;
       }

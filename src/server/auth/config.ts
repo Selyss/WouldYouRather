@@ -14,13 +14,13 @@ import { db } from "~/server/db";
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
-      id: string;
+      id?: string; /* I dont know how I feel about these being optional */
       username: string;
     } & DefaultSession["user"];
   }
 
   interface User {
-    id: string;
+    id?: string;
     username: string;
   }
 }
