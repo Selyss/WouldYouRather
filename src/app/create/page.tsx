@@ -22,8 +22,34 @@ export default function CreateQuestionPage() {
   }
 
   if (!session) {
-    router.push("/auth/signin");
-    return null;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-md w-full space-y-8 text-center">
+          <div>
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+              Sign In Required
+            </h2>
+            <p className="mt-2 text-gray-600">
+              You need to be signed in to create questions.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <Link
+              href="/auth/signin"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/"
+              className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Back to Questions
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

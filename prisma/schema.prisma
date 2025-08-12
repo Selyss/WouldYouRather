@@ -31,11 +31,11 @@ model Question {
 model Vote {
   id         Int      @id @default(autoincrement())
   questionId Int
-  userId     String
+  userId     String?
   choice     String
   createdAt  DateTime @default(now())
   question   Question @relation(fields: [questionId], references: [id])
-  user       User     @relation(fields: [userId], references: [id])
+  user       User?    @relation(fields: [userId], references: [id])
 
   @@unique([questionId, userId])
 }

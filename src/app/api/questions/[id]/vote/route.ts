@@ -9,19 +9,14 @@ const voteSchema = z.object({
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
+    const userId = session?.user?.id;
 
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    const questionId = parseInt(params.id);
+    const { id } = await params;
+    const questionId = parseInt(id);
     if (isNaN(questionId)) {
       return NextResponse.json(
         { error: "Invalid question ID" },
@@ -32,30 +27,37 @@ export async function POST(
     const body = await req.json();
     const { choice } = voteSchema.parse(body);
 
-    // Check if user already voted on this question
-    const existingVote = await db.vote.findUnique({
-      where: {
-        questionId_userId: {
-          questionId,
-          userId: session.user.id,
+    // Check if user already voted on this question (only if logged in)
+    if (userId) {
+      const existingVote = await db.vote.findUnique({
+        where: {
+          questionId_userId: {
+            questionId,
+            userId,
+          },
         },
-      },
-    });
+      });
 
-    if (existingVote) {
-      return NextResponse.json(
-        { error: "You have already voted on this question" },
-        { status: 400 }
-      );
+      if (existingVote) {
+        return NextResponse.json(
+          { error: "You have already voted on this question" },
+          { status: 400 }
+        );
+      }
     }
 
-    // Create the vote
+    // Create the vote (with or without userId)
+    const voteData: any = {
+      questionId,
+      choice,
+    };
+
+    if (userId) {
+      voteData.userId = userId;
+    }
+
     await db.vote.create({
-      data: {
-        questionId,
-        userId: session.user.id,
-        choice,
-      },
+      data: voteData,
     });
 
     // Get updated vote counts

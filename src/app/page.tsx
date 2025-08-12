@@ -36,12 +36,9 @@ export default function HomePage() {
 
   useEffect(() => {
     if (status === "loading") return;
-    if (!session) {
-      router.push("/auth/signin");
-      return;
-    }
+    // Load questions regardless of authentication status
     loadNextQuestion();
-  }, [session, status]);
+  }, [status]);
 
   const loadNextQuestion = async () => {
     setIsLoading(true);
@@ -109,10 +106,6 @@ export default function HomePage() {
     );
   }
 
-  if (!session) {
-    return null; // Will redirect to signin
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -121,21 +114,43 @@ export default function HomePage() {
           <div className="flex justify-between items-center py-6">
             <h1 className="text-3xl font-bold text-gray-900">Would You Rather</h1>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                Welcome, {session.user.username}!
-              </span>
-              <Link
-                href="/create"
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-              >
-                Create Question
-              </Link>
-              <button
-                onClick={() => signOut()}
-                className="text-gray-600 hover:text-gray-900 text-sm font-medium"
-              >
-                Sign Out
-              </button>
+              {session ? (
+                <>
+                  <span className="text-sm text-gray-600">
+                    Welcome, {session.user.username}!
+                  </span>
+                  <Link
+                    href="/create"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                  >
+                    Create Question
+                  </Link>
+                  <button
+                    onClick={() => signOut()}
+                    className="text-gray-600 hover:text-gray-900 text-sm font-medium"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm text-gray-600">
+                    Welcome! Sign in to create questions.
+                  </span>
+                  <Link
+                    href="/auth/signin"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="text-gray-600 hover:text-gray-900 text-sm font-medium"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -158,12 +173,21 @@ export default function HomePage() {
             <div className="text-xl text-gray-600 mb-4">
               No questions available. Why not create the first one?
             </div>
+              {session ? (
               <Link
                 href="/create"
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md font-medium"
               >
                 Create Question
               </Link>
+              ) : (
+                <Link
+                  href="/auth/signin"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md font-medium"
+                >
+                  Sign In to Create Questions
+                </Link>
+              )}
             </div>
           ) : (
             <div className="bg-white rounded-lg shadow-lg p-8">

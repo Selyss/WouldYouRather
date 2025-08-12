@@ -5,23 +5,19 @@ import { db } from "~/server/db";
 export async function GET(req: NextRequest) {
   try {
     const session = await auth();
+    const userId = session?.user?.id;
 
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    // Find questions the user hasn't voted on yet
-    const unseenQuestion = await db.question.findFirst({
-      where: {
-        votes: {
-          none: {
-            userId: session.user.id,
-          },
+    // Find questions the user hasn't voted on yet (or all questions if not logged in)
+    const whereClause = userId ? {
+      votes: {
+        none: {
+          userId: userId,
         },
       },
+    } : {};
+
+    const unseenQuestion = await db.question.findFirst({
+      where: whereClause,
       orderBy: {
         createdAt: "desc", // You can change this to random() if your DB supports it
       },
