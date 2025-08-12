@@ -1,26 +1,35 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Montserrat, Open_Sans } from "next/font/google";
 import { Providers } from "./_components/providers";
 
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-montserrat",
+  weight: ["400", "600", "700", "900"],
+});
+
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-open-sans",
+  weight: ["400", "500", "600"],
+});
+
 export const metadata: Metadata = {
-  title: "Would You Rather",
-  description: "A fun game where you choose between two options and see what others picked!",
+  title: "Would You Rather? - The Ultimate Choice Game",
+  description: "Make tough choices and see how you compare with others in this addictive game",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
-
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`}>
-      <body>
+    <html lang="en" className={`${montserrat.variable} ${openSans.variable}`}>
+      <body className="antialiased">
         <Providers>
           {children}
         </Providers>
