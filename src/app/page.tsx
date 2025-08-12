@@ -1,37 +1,266 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+type Question = {
+  id: number;
+  optionA: string;
+  optionB: string;
+  author: {
+    username: string;
+  };
+  _count: {
+    votes: number;
+  };
+};
+
+type VoteResults = {
+  totalVotes: number;
+  aVotes: number;
+  bVotes: number;
+  aPercentage: number;
+  bPercentage: number;
+};
+
 export default function HomePage() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
-        </div>
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [question, setQuestion] = useState<Question | null>(null);
+  const [hasVoted, setHasVoted] = useState(false);
+  const [voteResults, setVoteResults] = useState<VoteResults | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (status === "loading") return;
+    if (!session) {
+      router.push("/auth/signin");
+      return;
+    }
+    loadNextQuestion();
+  }, [session, status]);
+
+  const loadNextQuestion = async () => {
+    setIsLoading(true);
+    setError("");
+    setHasVoted(false);
+    setVoteResults(null);
+
+    try {
+      const response = await fetch("/api/questions/random-unseen");
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Failed to load question");
+        return;
+      }
+
+      if (data.message) {
+        // No more questions
+        setQuestion(null);
+        setError("You've answered all available questions! Create some new ones.");
+      } else {
+        setQuestion(data);
+      }
+    } catch (error) {
+      setError("Failed to load question");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVote = async (choice: "A" | "B") => {
+    if (!question || hasVoted) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/questions/${question.id}/vote`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ choice }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Failed to submit vote");
+        return;
+      }
+
+      setHasVoted(true);
+      setVoteResults(data.results);
+    } catch (error) {
+      setError("Failed to submit vote");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-xl">Loading...</div>
       </div>
-    </main>
+    );
+  }
+
+  if (!session) {
+    return null; // Will redirect to signin
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
+            <h1 className="text-3xl font-bold text-gray-900">Would You Rather</h1>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-gray-600">
+                Welcome, {session.user.username}!
+              </span>
+              <Link
+                href="/create"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+              >
+                Create Question
+              </Link>
+              <button
+                onClick={() => signOut()}
+                className="text-gray-600 hover:text-gray-900 text-sm font-medium"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        {error && (
+          <div className="mb-6 rounded-md bg-red-50 p-4">
+            <div className="text-sm text-red-700">{error}</div>
+          </div>
+        )}
+
+        {isLoading && !question ? (
+          <div className="text-center">
+            <div className="text-xl">Loading question...</div>
+          </div>
+        ) : !question ? (
+          <div className="text-center">
+            <div className="text-xl text-gray-600 mb-4">
+              No questions available. Why not create the first one?
+            </div>
+              <Link
+                href="/create"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md font-medium"
+              >
+                Create Question
+              </Link>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-lg p-8">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                  Would You Rather...
+                </h2>
+                <p className="text-sm text-gray-600">
+                  Created by {question.author.username}
+                </p>
+              </div>
+
+              {!hasVoted ? (
+                <div className="space-y-4">
+                  <button
+                    onClick={() => handleVote("A")}
+                    disabled={isLoading}
+                    className="w-full p-6 text-left border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <div className="text-lg font-medium text-gray-900">
+                      A: {question.optionA}
+                    </div>
+                  </button>
+
+                  <div className="text-center text-gray-500 font-medium">OR</div>
+
+                  <button
+                    onClick={() => handleVote("B")}
+                    disabled={isLoading}
+                    className="w-full p-6 text-left border-2 border-gray-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <div className="text-lg font-medium text-gray-900">
+                      B: {question.optionB}
+                    </div>
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="p-6 border-2 border-gray-200 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="text-lg font-medium text-gray-900">
+                        A: {question.optionA}
+                      </div>
+                      <div className="text-lg font-bold text-indigo-600">
+                        {voteResults?.aPercentage}%
+                      </div>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-indigo-600 h-2 rounded-full"
+                        style={{ width: `${voteResults?.aPercentage}%` }}
+                      ></div>
+                    </div>
+                    <div className="text-sm text-gray-600 mt-1">
+                      {voteResults?.aVotes} votes
+                    </div>
+                  </div>
+
+                  <div className="text-center text-gray-500 font-medium">OR</div>
+
+                  <div className="p-6 border-2 border-gray-200 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="text-lg font-medium text-gray-900">
+                        B: {question.optionB}
+                      </div>
+                      <div className="text-lg font-bold text-indigo-600">
+                        {voteResults?.bPercentage}%
+                      </div>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-indigo-600 h-2 rounded-full"
+                        style={{ width: `${voteResults?.bPercentage}%` }}
+                      ></div>
+                    </div>
+                    <div className="text-sm text-gray-600 mt-1">
+                      {voteResults?.bVotes} votes
+                    </div>
+                  </div>
+
+                  <div className="text-center mt-6">
+                    <div className="text-sm text-gray-600 mb-4">
+                      Total votes: {voteResults?.totalVotes}
+                    </div>
+                    <button
+                      onClick={loadNextQuestion}
+                      disabled={isLoading}
+                      className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                          {isLoading ? "Loading..." : "Next Question"}
+                        </button>
+                      </div>
+                    </div>
+                )}
+              </div>
+        )}
+      </main>
+    </div>
   );
 }
