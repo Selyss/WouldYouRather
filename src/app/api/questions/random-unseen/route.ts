@@ -7,33 +7,63 @@ export async function GET(req: NextRequest) {
     const session = await auth();
     const userId = session?.user?.id;
 
-    // Find questions the user hasn't voted on yet (or all questions if not logged in)
-    const whereClause = userId ? {
-      votes: {
-        none: {
-          userId: userId,
-        },
-      },
-    } : {};
+    let unseenQuestion;
 
-    const unseenQuestion = await db.question.findFirst({
-      where: whereClause,
-      orderBy: {
-        createdAt: "desc", // You can change this to random() if your DB supports it
-      },
-      include: {
-        author: {
-          select: {
-            username: true,
+    if (userId) {
+      // For logged-in users, find questions they haven't voted on yet
+      unseenQuestion = await db.question.findFirst({
+        where: {
+          votes: {
+            none: {
+              userId: userId,
+            },
           },
         },
-        _count: {
-          select: {
-            votes: true,
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          author: {
+            select: {
+              username: true,
+            },
+          },
+          _count: {
+            select: {
+              votes: true,
+            },
           },
         },
-      },
-    });
+      });
+    } else {
+      // For signed-out users, get a fully random question
+      const totalQuestions = await db.question.count();
+
+      if (totalQuestions === 0) {
+        return NextResponse.json(
+          { message: "No questions available" },
+          { status: 200 }
+        );
+      }
+
+      const randomSkip = Math.floor(Math.random() * totalQuestions);
+
+      unseenQuestion = await db.question.findFirst({
+        skip: randomSkip,
+        include: {
+          author: {
+            select: {
+              username: true,
+            },
+          },
+          _count: {
+            select: {
+              votes: true,
+            },
+          },
+        },
+      });
+    }
 
     if (!unseenQuestion) {
       return NextResponse.json(
