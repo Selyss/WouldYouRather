@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AuthHeader } from "~/components/ui/auth-header";
+import Link from "next/link";
 
 export default function SignInPage() {
   const [username, setUsername] = useState("");
@@ -46,17 +47,7 @@ export default function SignInPage() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-900/5 to-transparent"></div>
 
       {/* Header */}
-      <header className="relative z-10 bg-slate-900/90 backdrop-blur-sm border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Would You Rather
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
+      <AuthHeader />      {/* Main Content */}
       <main className="relative z-10 flex items-center justify-center min-h-[calc(100vh-84px)] px-4 py-12">
         <Card className="w-full max-w-md bg-slate-800/90 backdrop-blur-sm border-slate-700">
           <CardHeader className="text-center">
