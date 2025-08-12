@@ -145,7 +145,7 @@ export default function HomePage() {
       <main className="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {error && (
           <div className="mb-6 rounded-md bg-red-50 p-4">
-            <div className="text-sm text-red-700">{error}</div>
+            <div className="text-sm text-red-700 text-center">{error}</div>
           </div>
         )}
 
