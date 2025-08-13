@@ -131,7 +131,7 @@ export default function HomePage() {
       <AppHeader session={session} />
 
       {/* Main Content */}
-      <main className="px-4 md:px-8 py-12">
+      <main className="px-4 md:px-8 py-2 md:py-12">
         {/* Error Message */}
         {error && <ErrorMessage message={error} />}
 
@@ -204,13 +204,6 @@ export default function HomePage() {
                     <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                       <VsButtonMobile />
                     </div>
-                  </div>
-
-                  {/* Mobile Author - Below Options */}
-                  <div className="md:hidden text-center mb-4">
-                    <p className="text-slate-400 text-xs">
-                      Created by {question.author.username}
-                    </p>
                   </div>
 
                   {hasVoted && voteResults && (
