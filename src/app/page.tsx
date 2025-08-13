@@ -99,11 +99,9 @@ export default function HomePage() {
         return;
       }
 
-      setTimeout(() => {
-        setHasVoted(true);
-        setVoteResults(data.results);
-        setIsAnimating(false);
-      }, 600);
+      setHasVoted(true);
+      setVoteResults(data.results);
+      setIsAnimating(false);
     } catch (error) {
       setError("Failed to submit vote");
       setIsAnimating(false);
