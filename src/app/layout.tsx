@@ -22,6 +22,12 @@ export const metadata: Metadata = {
   title: "Would You Rather? - The Ultimate Choice Game",
   description: "Make tough choices and see how you compare with others in this addictive game",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
 };
 
 export default function RootLayout({

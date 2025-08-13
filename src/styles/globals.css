@@ -123,4 +123,15 @@
   body {
     @apply bg-background text-foreground;
   }
+    /* Mobile viewport fix */
+    @media (max-width: 768px) {
+  
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+      }
+    }
 }
