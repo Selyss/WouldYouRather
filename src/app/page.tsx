@@ -177,7 +177,7 @@ export default function HomePage() {
                   </div>
 
                   {/* Mobile Layout */}
-                  <div className="md:hidden flex flex-col gap-2 mb-8 relative">
+                  <div className="md:hidden flex flex-col gap-2 mb-4 relative">
                     {/* Option A */}
                     <OptionCard
                       option="A"
@@ -207,7 +207,7 @@ export default function HomePage() {
                   </div>
 
                   {hasVoted && voteResults && (
-                    <div className="mb-8">
+                    <div className="mb-4 md:mb-8">
                       {/* Combined Results Bar */}
                       <ResultsBar
                         aPercentage={voteResults.aPercentage}
