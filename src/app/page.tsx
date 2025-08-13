@@ -146,7 +146,8 @@ export default function HomePage() {
 
                 {/* Choice Cards */}
                 <div className="max-w-6xl mx-auto">
-                  <div className="grid md:grid-cols-2 gap-8 mb-8 relative">
+                  {/* Desktop Layout */}
+                  <div className="hidden md:grid md:grid-cols-2 gap-8 mb-8 relative">
                     {/* Option A */}
                     <OptionCard
                       option="A"
@@ -169,13 +170,38 @@ export default function HomePage() {
                       onClick={() => !hasVoted && !isLoading && handleVote("B")}
                     />
 
-                    {/* VS Button */}
-                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block">
+                    {/* Desktop VS Button */}
+                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                       <VsButton />
                     </div>
+                  </div>
 
-                    {/* Mobile VS Button */}
-                    <div className="flex items-center justify-center mb-8 md:hidden">
+                  {/* Mobile Layout */}
+                  <div className="md:hidden flex flex-col gap-2 mb-8 relative">
+                    {/* Option A */}
+                    <OptionCard
+                      option="A"
+                      text={question.optionA}
+                      isSelected={selectedOption === "A"}
+                      hasVoted={hasVoted}
+                      isLoading={isLoading}
+                      isAnimating={isAnimating}
+                      onClick={() => !hasVoted && !isLoading && handleVote("A")}
+                    />
+
+                    {/* Option B */}
+                    <OptionCard
+                      option="B"
+                      text={question.optionB}
+                      isSelected={selectedOption === "B"}
+                      hasVoted={hasVoted}
+                      isLoading={isLoading}
+                      isAnimating={isAnimating}
+                      onClick={() => !hasVoted && !isLoading && handleVote("B")}
+                    />
+
+                    {/* Mobile VS Button - Overlay */}
+                    <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                       <VsButtonMobile />
                     </div>
                   </div>
