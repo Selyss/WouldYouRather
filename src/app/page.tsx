@@ -206,6 +206,13 @@ export default function HomePage() {
                     </div>
                   </div>
 
+                  {/* Mobile Author - Below Options */}
+                  <div className="md:hidden text-center mb-4">
+                    <p className="text-slate-400 text-xs">
+                      Created by {question.author.username}
+                    </p>
+                  </div>
+
                   {hasVoted && voteResults && (
                     <div className="mb-4 md:mb-8">
                       {/* Combined Results Bar */}
