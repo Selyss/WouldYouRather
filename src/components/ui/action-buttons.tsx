@@ -17,7 +17,8 @@ export function ActionButtons({ isLoading, onNextQuestion, onShareResult }: Acti
         {isLoading ? "Loading..." : "Next Challenge →"}
       </Button>
 
-      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          {/* TODO: add back later */}
+          {/* <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <Button
           onClick={onShareResult}
           variant="outline"
@@ -31,7 +32,7 @@ export function ActionButtons({ isLoading, onNextQuestion, onShareResult }: Acti
         >
           Challenge Friend
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }
