@@ -10,7 +10,7 @@ export function AppHeader({ session }: AppHeaderProps) {
   const router = useRouter();
 
   return (
-    <header className="flex items-center justify-between px-4 md:px-8 py-3 md:py-6 bg-slate-800/80 backdrop-blur-sm border-b border-slate-700">
+    <header className="flex items-center justify-between px-4 md:px-8 py-2 md:py-6 bg-slate-800/80 backdrop-blur-sm border-b border-slate-700">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg">
           <span className="text-slate-800 text-lg md:text-xl font-bold">?</span>
