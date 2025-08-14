@@ -14,9 +14,12 @@ import { LoadingState, LoadingText } from "~/components/ui/loading-state";
 
 type Question = {
   id: number;
-  optionA: string;
-  optionB: string;
   prompt: string;
+  responses: {
+    id: number;
+    text: string;
+    order: number;
+  }[];
   author: {
     username: string;
   };
@@ -110,7 +113,13 @@ export default function HomePage() {
   };
 
   const shareResult = () => {
-    const text = `I chose "${selectedOption === "A" ? question?.optionA : question?.optionB}" - ${selectedOption === "A" ? voteResults?.aPercentage : voteResults?.bPercentage}% of people agree! What would you choose?`;
+    if (!question || !selectedOption) return;
+
+    const selectedResponse = question.responses.find(r => r.order === (selectedOption === "A" ? 0 : 1));
+    const selectedText = selectedResponse?.text || "";
+    const percentage = selectedOption === "A" ? voteResults?.aPercentage : voteResults?.bPercentage;
+
+    const text = `I chose "${selectedText}" - ${percentage}% of people agree! What would you choose?`;
     if (navigator.share) {
       navigator.share({
         title: "Would You Rather?",
@@ -150,7 +159,7 @@ export default function HomePage() {
                     {/* Option A */}
                     <OptionCard
                       option="A"
-                      text={question.optionA}
+                      text={question.responses[0]?.text || ""}
                       isSelected={selectedOption === "A"}
                       hasVoted={hasVoted}
                       isLoading={isLoading}
@@ -161,7 +170,7 @@ export default function HomePage() {
                     {/* Option B */}
                     <OptionCard
                       option="B"
-                      text={question.optionB}
+                      text={question.responses[1]?.text || ""}
                       isSelected={selectedOption === "B"}
                       hasVoted={hasVoted}
                       isLoading={isLoading}
@@ -180,7 +189,7 @@ export default function HomePage() {
                     {/* Option A */}
                     <OptionCard
                       option="A"
-                      text={question.optionA}
+                      text={question.responses[0]?.text || ""}
                       isSelected={selectedOption === "A"}
                       hasVoted={hasVoted}
                       isLoading={isLoading}
@@ -191,7 +200,7 @@ export default function HomePage() {
                     {/* Option B */}
                     <OptionCard
                       option="B"
-                      text={question.optionB}
+                      text={question.responses[1]?.text || ""}
                       isSelected={selectedOption === "B"}
                       hasVoted={hasVoted}
                       isLoading={isLoading}

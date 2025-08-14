@@ -19,23 +19,35 @@ model User {
 }
 
 model Question {
-  id        Int      @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   authorId  String
-  optionA   String
-  optionB   String
-  prompt    String   @default("Would you rather...")
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [authorId], references: [id])
+  prompt    String     @default("Would you rather...")
+  createdAt DateTime   @default(now())
+  author    User       @relation(fields: [authorId], references: [id])
+  responses Response[]
   votes     Vote[]
+}
+
+model Response {
+  id         Int      @id @default(autoincrement())
+  questionId Int
+  text       String
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  votes      Vote[]
+
+  @@index([questionId, order])
 }
 
 model Vote {
   id         Int      @id @default(autoincrement())
   questionId Int
+  responseId Int
   userId     String?
-  choice     String
   createdAt  DateTime @default(now())
   question   Question @relation(fields: [questionId], references: [id])
+  response   Response @relation(fields: [responseId], references: [id])
   user       User?    @relation(fields: [userId], references: [id])
 
   @@unique([questionId, userId])

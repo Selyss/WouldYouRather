@@ -25,10 +25,14 @@ export async function POST(req: NextRequest) {
 
     const question = await db.question.create({
       data: {
-        optionA,
-        optionB,
         prompt,
         authorId: session.user.id,
+        responses: {
+          create: [
+            { text: optionA, order: 0 },
+            { text: optionB, order: 1 }
+          ]
+        }
       },
       include: {
         author: {
@@ -36,6 +40,9 @@ export async function POST(req: NextRequest) {
             username: true,
           },
         },
+        responses: {
+          orderBy: { order: 'asc' }
+        }
       },
     });
 

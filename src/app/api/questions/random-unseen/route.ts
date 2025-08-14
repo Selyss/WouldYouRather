@@ -28,6 +28,9 @@ export async function GET(req: NextRequest) {
               username: true,
             },
           },
+          responses: {
+            orderBy: { order: 'asc' }
+          },
           _count: {
             select: {
               votes: true,
@@ -55,6 +58,9 @@ export async function GET(req: NextRequest) {
             select: {
               username: true,
             },
+          },
+          responses: {
+            orderBy: { order: 'asc' }
           },
           _count: {
             select: {

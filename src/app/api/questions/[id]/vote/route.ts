@@ -27,6 +27,34 @@ export async function POST(
     const body: unknown = await req.json();
     const { choice } = voteSchema.parse(body);
 
+    // Get the question with its responses to find the correct responseId
+    const question = await db.question.findUnique({
+      where: { id: questionId },
+      include: {
+        responses: {
+          orderBy: { order: 'asc' }
+        }
+      }
+    });
+
+    if (!question) {
+      return NextResponse.json(
+        { error: "Question not found" },
+        { status: 404 }
+      );
+    }
+
+    // Map choice A/B to responseId based on order
+    const responseIndex = choice === "A" ? 0 : 1;
+    const targetResponse = question.responses[responseIndex];
+
+    if (!targetResponse) {
+      return NextResponse.json(
+        { error: "Invalid choice for this question" },
+        { status: 400 }
+      );
+    }
+
     // Check if user already voted on this question (only if logged in)
     if (userId) {
       const existingVote = await db.vote.findUnique({
@@ -49,7 +77,7 @@ export async function POST(
     // Create the vote (with or without userId)
     const voteData: any = {
       questionId,
-      choice,
+      responseId: targetResponse.id,
     };
 
     if (userId) {
@@ -60,17 +88,26 @@ export async function POST(
       data: voteData,
     });
 
+    // Get the first two responses for vote counting (A and B)
+    const responses = await db.response.findMany({
+      where: { questionId },
+      orderBy: { order: 'asc' },
+      take: 2
+    });
+
     // Get updated vote counts
     const [totalVotes, aVotes] = await Promise.all([
       db.vote.count({
         where: { questionId },
       }),
-      db.vote.count({
-        where: { questionId, choice: "A" },
-      }),
+      responses.length > 0 ? db.vote.count({
+        where: { questionId, responseId: responses[0]!.id },
+      }) : Promise.resolve(0),
     ]);
 
-    const bVotes = totalVotes - aVotes;
+    const bVotes = responses.length > 1 ? await db.vote.count({
+      where: { questionId, responseId: responses[1]!.id },
+    }) : 0;
     const aPercentage = totalVotes > 0 ? Math.round((aVotes / totalVotes) * 100) : 0;
     const bPercentage = totalVotes > 0 ? Math.round((bVotes / totalVotes) * 100) : 0;
 
