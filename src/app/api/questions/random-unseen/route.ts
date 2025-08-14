@@ -13,9 +13,13 @@ export async function GET(req: NextRequest) {
       // For logged-in users, find questions they haven't voted on yet
       unseenQuestion = await db.question.findFirst({
         where: {
-          votes: {
+          responses: {
             none: {
-              userId: userId,
+              votes: {
+                some: {
+                  userId: userId,
+                },
+              },
             },
           },
         },
@@ -29,11 +33,13 @@ export async function GET(req: NextRequest) {
             },
           },
           responses: {
-            orderBy: { order: 'asc' }
-          },
-          _count: {
-            select: {
-              votes: true,
+            orderBy: { order: 'asc' },
+            include: {
+              _count: {
+                select: {
+                  votes: true,
+                },
+              },
             },
           },
         },
@@ -60,11 +66,13 @@ export async function GET(req: NextRequest) {
             },
           },
           responses: {
-            orderBy: { order: 'asc' }
-          },
-          _count: {
-            select: {
-              votes: true,
+            orderBy: { order: 'asc' },
+            include: {
+              _count: {
+                select: {
+                  votes: true,
+                },
+              },
             },
           },
         },

@@ -57,12 +57,13 @@ export async function POST(
 
     // Check if user already voted on this question (only if logged in)
     if (userId) {
-      const existingVote = await db.vote.findUnique({
+      // Check if user has voted on ANY response of this question
+      const existingVote = await db.vote.findFirst({
         where: {
-          questionId_userId: {
-            questionId,
-            userId,
-          },
+          userId: userId,
+          response: {
+            questionId: questionId
+          }
         },
       });
 
@@ -76,7 +77,6 @@ export async function POST(
 
     // Create the vote (with or without userId)
     const voteData: any = {
-      questionId,
       responseId: targetResponse.id,
     };
 
@@ -88,26 +88,21 @@ export async function POST(
       data: voteData,
     });
 
-    // Get the first two responses for vote counting (A and B)
-    const responses = await db.response.findMany({
+    // Get updated vote counts with response data
+    const responsesWithCounts = await db.response.findMany({
       where: { questionId },
+      include: {
+        _count: {
+          select: { votes: true }
+        }
+      },
       orderBy: { order: 'asc' },
       take: 2
     });
 
-    // Get updated vote counts
-    const [totalVotes, aVotes] = await Promise.all([
-      db.vote.count({
-        where: { questionId },
-      }),
-      responses.length > 0 ? db.vote.count({
-        where: { questionId, responseId: responses[0]!.id },
-      }) : Promise.resolve(0),
-    ]);
-
-    const bVotes = responses.length > 1 ? await db.vote.count({
-      where: { questionId, responseId: responses[1]!.id },
-    }) : 0;
+    const totalVotes = responsesWithCounts.reduce((sum, response) => sum + response._count.votes, 0);
+    const aVotes = responsesWithCounts[0]?._count.votes ?? 0;
+    const bVotes = responsesWithCounts[1]?._count.votes ?? 0;
     const aPercentage = totalVotes > 0 ? Math.round((aVotes / totalVotes) * 100) : 0;
     const bPercentage = totalVotes > 0 ? Math.round((bVotes / totalVotes) * 100) : 0;
 

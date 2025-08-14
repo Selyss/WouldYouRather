@@ -25,7 +25,6 @@ model Question {
   createdAt DateTime   @default(now())
   author    User       @relation(fields: [authorId], references: [id])
   responses Response[]
-  votes     Vote[]
 }
 
 model Response {
@@ -42,15 +41,13 @@ model Response {
 
 model Vote {
   id         Int      @id @default(autoincrement())
-  questionId Int
   responseId Int
   userId     String?
   createdAt  DateTime @default(now())
-  question   Question @relation(fields: [questionId], references: [id])
-  response   Response @relation(fields: [responseId], references: [id])
+  response   Response @relation(fields: [responseId], references: [id], onDelete: Cascade)
   user       User?    @relation(fields: [userId], references: [id])
 
-  @@unique([questionId, userId])
+  @@unique([responseId, userId])
 }
 
 model Session {
