@@ -12,6 +12,7 @@ import Link from "next/link";
 export default function CreateQuestionPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [prompt, setPrompt] = useState("Would you rather...");
   const [optionA, setOptionA] = useState("");
   const [optionB, setOptionB] = useState("");
   const [error, setError] = useState("");
@@ -62,8 +63,18 @@ export default function CreateQuestionPage() {
       return;
     }
 
+    if (!prompt.trim()) {
+      setError("Question prompt is required");
+      return;
+    }
+
     if (optionA.length > 200 || optionB.length > 200) {
       setError("Each option must be less than 200 characters");
+      return;
+    }
+
+    if (prompt.length > 100) {
+      setError("Prompt must be less than 100 characters");
       return;
     }
 
@@ -76,6 +87,7 @@ export default function CreateQuestionPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          prompt: prompt.trim(),
           optionA: optionA.trim(),
           optionB: optionB.trim(),
         }),
@@ -115,6 +127,25 @@ export default function CreateQuestionPage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="prompt" className="block text-sm font-medium text-slate-300 mb-2">
+                  Question Prompt
+                </label>
+                <input
+                  id="prompt"
+                  type="text"
+                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                  placeholder="Would you rather..."
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  disabled={isLoading}
+                  maxLength={100}
+                />
+                <div className="text-right text-sm text-slate-400 mt-1">
+                  {prompt.length}/100 characters
+                </div>
+              </div>
+
               <div>
                 <label htmlFor="optionA" className="block text-sm font-medium text-slate-300 mb-2">
                   Option A
@@ -173,7 +204,7 @@ export default function CreateQuestionPage() {
                 </Button>
                 <Button
                   type="submit"
-                  disabled={isLoading || !optionA.trim() || !optionB.trim()}
+                  disabled={isLoading || !prompt.trim() || !optionA.trim() || !optionB.trim()}
                   className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
                 >
                   {isLoading ? "Creating..." : "Create Question"}

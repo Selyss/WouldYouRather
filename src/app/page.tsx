@@ -16,6 +16,7 @@ type Question = {
   id: number;
   optionA: string;
   optionB: string;
+  prompt: string;
   author: {
     username: string;
   };
@@ -140,7 +141,7 @@ export default function HomePage() {
           ) : (
               <>
                 {/* Question Title */}
-                <QuestionHeader authorUsername={question.author.username} />
+                <QuestionHeader authorUsername={question.author.username} prompt={question.prompt} />
 
                 {/* Choice Cards */}
                 <div className="max-w-6xl mx-auto">

@@ -23,6 +23,7 @@ model Question {
   authorId  String
   optionA   String
   optionB   String
+  prompt    String   @default("Would you rather...")
   createdAt DateTime @default(now())
   author    User     @relation(fields: [authorId], references: [id])
   votes     Vote[]
