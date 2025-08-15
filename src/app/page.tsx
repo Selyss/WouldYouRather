@@ -17,6 +17,7 @@ type Question = {
   prompt: string;
   category: "ETHICS" | "FUN";
   sensitiveContent: boolean;
+  score: number;
   responses: {
     id: number;
     text: string;

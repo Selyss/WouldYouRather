@@ -36,6 +36,7 @@ model Question {
   prompt             String           @default("Would you rather...")
   category           QuestionCategory @default(FUN)
   sensitiveContent   Boolean          @default(false)
+  score              Float            @default(0.0)
   createdAt          DateTime         @default(now())
   author             User             @relation(fields: [authorId], references: [id])
   responses          Response[]
