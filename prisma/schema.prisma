@@ -14,8 +14,19 @@ enum ContentPreference {
 }
 
 enum QuestionCategory {
+  GENERAL
+  ANIMALS
+  CAREER
   ETHICS
+  FOOD
   FUN
+  HEALTH
+  MONEY
+  POP_CULTURE
+  RELATIONSHIPS
+  SCI_FI
+  SUPERPOWERS
+  TRAVEL
 }
 
 model User {
@@ -34,7 +45,7 @@ model Question {
   id                 Int              @id @default(autoincrement())
   authorId           String?
   prompt             String           @default("Would you rather...")
-  category           QuestionCategory @default(FUN)
+  category           QuestionCategory @default(GENERAL)
   sensitiveContent   Boolean          @default(false)
   score              Float            @default(0.0)
   createdAt          DateTime         @default(now())
