@@ -8,6 +8,7 @@ const createQuestionSchema = z.object({
   optionB: z.string().min(1, "Option B cannot be empty").max(200, "Option B must be less than 200 characters"),
   prompt: z.string().min(1, "Prompt cannot be empty").max(100, "Prompt must be less than 100 characters").default("Would you rather..."),
   category: z.enum(["ETHICS", "FUN"]).default("FUN"),
+  sensitiveContent: z.boolean().default(false),
 });
 
 export async function POST(req: NextRequest) {
@@ -22,12 +23,13 @@ export async function POST(req: NextRequest) {
     }
 
     const body: unknown = await req.json();
-    const { optionA, optionB, prompt, category } = createQuestionSchema.parse(body);
+    const { optionA, optionB, prompt, category, sensitiveContent } = createQuestionSchema.parse(body);
 
     const question = await db.question.create({
       data: {
         prompt,
         category,
+        sensitiveContent,
         authorId: session.user.id,
         responses: {
           create: [

@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { useState, useEffect } from "react";
 import { Button } from "./button";
 
 interface AppHeaderProps {
@@ -8,6 +9,51 @@ interface AppHeaderProps {
 
 export function AppHeader({ session }: AppHeaderProps) {
   const router = useRouter();
+  const [showSensitiveContent, setShowSensitiveContent] = useState(false);
+  const [isToggling, setIsToggling] = useState(false);
+
+  // Fetch user's sensitive content preference when signed in
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetch("/api/user/sensitive-content")
+        .then(res => res.json())
+        .then(data => {
+          if (data.showSensitiveContent !== undefined) {
+            setShowSensitiveContent(data.showSensitiveContent);
+          }
+        })
+        .catch(console.error);
+    }
+  }, [session?.user?.id]);
+
+  const toggleSensitiveContent = async () => {
+    if (!session?.user?.id || isToggling) return;
+
+    setIsToggling(true);
+    try {
+      const response = await fetch("/api/user/sensitive-content", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          showSensitiveContent: !showSensitiveContent,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setShowSensitiveContent(data.showSensitiveContent);
+
+        // Refresh the page to reload questions with new filter
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Failed to toggle sensitive content:", error);
+    } finally {
+      setIsToggling(false);
+    }
+  };
 
   return (
     <header className="flex items-center justify-between px-4 md:px-8 py-2 md:py-6 bg-slate-800/80 backdrop-blur-sm border-b border-slate-700">
@@ -21,11 +67,29 @@ export function AppHeader({ session }: AppHeaderProps) {
         </div>
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-3 md:gap-6">
         {session ? (
           <>
             <div className="hidden md:flex items-center gap-2 bg-slate-700/50 px-4 py-2 rounded-full">
               <span className="text-slate-300 text-sm font-medium">Welcome, {session.user.username}!</span>
+            </div>
+
+            {/* Sensitive Content Toggle */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={toggleSensitiveContent}
+                disabled={isToggling}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 ${showSensitiveContent ? 'bg-blue-600' : 'bg-slate-600'
+                  } ${isToggling ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${showSensitiveContent ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                />
+              </button>
+              <span className="text-slate-300 text-xs md:text-sm font-medium">
+                18+
+              </span>
             </div>
 
             <Button

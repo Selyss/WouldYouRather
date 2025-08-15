@@ -10,9 +10,19 @@ export async function GET(req: NextRequest) {
     let unseenQuestion;
 
     if (userId) {
+      // Get user's sensitive content preference
+      const user = await db.user.findUnique({
+        where: { id: userId },
+        select: { showSensitiveContent: true }
+      });
+
+      const showSensitive = user?.showSensitiveContent ?? false;
+
       // For logged-in users, find questions they haven't voted on yet
       unseenQuestion = await db.question.findFirst({
         where: {
+          // Filter based on sensitive content preference
+          sensitiveContent: showSensitive ? undefined : false,
           responses: {
             none: {
               votes: {
@@ -45,8 +55,12 @@ export async function GET(req: NextRequest) {
         },
       });
     } else {
-      // For signed-out users, get a fully random question
-      const totalQuestions = await db.question.count();
+      // For unsigned-in users, never show sensitive content
+      const totalQuestions = await db.question.count({
+        where: {
+          sensitiveContent: false
+        }
+      });
 
       if (totalQuestions === 0) {
         return NextResponse.json(
@@ -59,6 +73,9 @@ export async function GET(req: NextRequest) {
 
       unseenQuestion = await db.question.findFirst({
         skip: randomSkip,
+        where: {
+          sensitiveContent: false
+        },
         include: {
           author: {
             select: {

@@ -16,6 +16,7 @@ export default function CreateQuestionPage() {
   const [optionA, setOptionA] = useState("");
   const [optionB, setOptionB] = useState("");
   const [category, setCategory] = useState<"ETHICS" | "FUN">("FUN");
+  const [sensitiveContent, setSensitiveContent] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -92,6 +93,7 @@ export default function CreateQuestionPage() {
           optionA: optionA.trim(),
           optionB: optionB.trim(),
           category: category,
+          sensitiveContent: sensitiveContent,
         }),
       });
 
@@ -164,6 +166,25 @@ export default function CreateQuestionPage() {
                 </select>
                 <div className="text-sm text-slate-400 mt-1">
                   Choose whether this is a fun or ethical dilemma
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center">
+                  <input
+                    id="sensitiveContent"
+                    type="checkbox"
+                    checked={sensitiveContent}
+                    onChange={(e) => setSensitiveContent(e.target.checked)}
+                    disabled={isLoading}
+                    className="h-4 w-4 text-blue-600 bg-slate-700 border-slate-600 rounded focus:ring-blue-500 focus:ring-2"
+                  />
+                  <label htmlFor="sensitiveContent" className="ml-2 text-sm font-medium text-slate-300">
+                    Contains sensitive content
+                  </label>
+                </div>
+                <div className="text-sm text-slate-400 mt-1">
+                  Check this if the question contains mature, adult, or potentially offensive content
                 </div>
               </div>
 

@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  username  String     @unique
-  password  String
-  createdAt DateTime   @default(now())
-  accounts  Account[]
-  questions Question[]
-  sessions  Session[]
-  votes     Vote[]
+  id                    String     @id @default(cuid())
+  username              String     @unique
+  password              String
+  showSensitiveContent  Boolean    @default(false)
+  createdAt             DateTime   @default(now())
+  accounts              Account[]
+  questions             Question[]
+  sessions              Session[]
+  votes                 Vote[]
 }
 
 enum QuestionCategory {
@@ -24,14 +25,15 @@ enum QuestionCategory {
 }
 
 model Question {
-  id        Int              @id @default(autoincrement())
-  authorId  String
-  prompt    String           @default("Would you rather...")
-  category  QuestionCategory @default(FUN)
-  createdAt DateTime         @default(now())
-  author    User             @relation(fields: [authorId], references: [id])
-  responses Response[]
-  votes     Vote[]
+  id                 Int              @id @default(autoincrement())
+  authorId           String
+  prompt             String           @default("Would you rather...")
+  category           QuestionCategory @default(FUN)
+  sensitiveContent   Boolean          @default(false)
+  createdAt          DateTime         @default(now())
+  author             User             @relation(fields: [authorId], references: [id])
+  responses          Response[]
+  votes              Vote[]
 }
 
 model Response {
