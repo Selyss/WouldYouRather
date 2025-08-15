@@ -32,13 +32,13 @@ model User {
 
 model Question {
   id                 Int              @id @default(autoincrement())
-  authorId           String
+  authorId           String?
   prompt             String           @default("Would you rather...")
   category           QuestionCategory @default(FUN)
   sensitiveContent   Boolean          @default(false)
   score              Float            @default(0.0)
   createdAt          DateTime         @default(now())
-  author             User             @relation(fields: [authorId], references: [id])
+  author             User?            @relation(fields: [authorId], references: [id])
   responses          Response[]
   votes              Vote[]
 }
