@@ -72,18 +72,18 @@ export function AppHeader({ session }: AppHeaderProps) {
       default: return "bg-green-600";
     }
   };  return (
-    <header className="flex items-center justify-between px-4 md:px-8 py-2 md:py-6 bg-slate-800/80 backdrop-blur-sm border-b border-slate-700">
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg">
-          <span className="text-slate-800 text-lg md:text-xl font-bold">?</span>
+    <header className="flex items-center justify-between px-3 md:px-8 py-2 md:py-6 bg-slate-800/80 backdrop-blur-sm border-b border-slate-700">
+      <div className="flex items-center gap-2 md:gap-4">
+        <div className="w-8 h-8 md:w-12 md:h-12 bg-white rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg">
+          <span className="text-slate-800 text-sm md:text-xl font-bold">?</span>
         </div>
         <div>
-          <h1 className="font-serif font-black text-lg md:text-xl text-white">Would You Rather?</h1>
+          <h1 className="font-serif font-black text-base md:text-xl text-white">Would You Rather?</h1>
           <p className="hidden md:block text-slate-300 text-sm font-medium">Make your choice & see the results</p>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 md:gap-6">
+      <div className="flex items-center gap-1.5 md:gap-6">
         {session ? (
           <>
             <div className="hidden md:flex items-center gap-2 bg-slate-700/50 px-4 py-2 rounded-full">
@@ -96,7 +96,7 @@ export function AppHeader({ session }: AppHeaderProps) {
                 value={contentPreference}
                 onChange={(e) => changeContentPreference(e.target.value as "ALL" | "SAFE_ONLY" | "ADULT_ONLY")}
                 disabled={isChanging}
-                className={`px-3 py-1 rounded-lg text-xs md:text-sm font-medium border-0 focus:outline-none focus:ring-2 focus:ring-blue-500 ${getPreferenceColor(contentPreference)} text-white ${
+                className={`px-2 md:px-3 py-1 rounded-lg text-xs font-medium border-0 focus:outline-none focus:ring-2 focus:ring-blue-500 ${getPreferenceColor(contentPreference)} text-white ${
                   isChanging ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
                 }`}
               >
@@ -108,17 +108,19 @@ export function AppHeader({ session }: AppHeaderProps) {
 
             <Button
               onClick={() => router.push("/create")}
-              className="bg-white hover:bg-gray-100 text-slate-800 px-6 py-2.5 rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
+              className="bg-white hover:bg-gray-100 text-slate-800 px-3 py-2 md:px-6 md:py-2.5 rounded-lg md:rounded-xl text-xs md:text-sm font-semibold transition-all hover:scale-105 shadow-lg"
             >
-              + Add Question
+              <span className="md:hidden">+</span>
+              <span className="hidden md:inline">+ Add Question</span>
             </Button>
 
             <Button
               onClick={() => signOut()}
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-slate-800 px-6 py-2.5 rounded-xl font-semibold bg-transparent"
+              className="border-white text-white hover:bg-white hover:text-slate-800 px-3 py-2 md:px-6 md:py-2.5 rounded-lg md:rounded-xl text-xs md:text-sm font-semibold bg-transparent"
             >
-              Sign Out
+              <span className="md:hidden">Out</span>
+              <span className="hidden md:inline">Sign Out</span>
             </Button>
           </>
         ) : (
@@ -129,17 +131,19 @@ export function AppHeader({ session }: AppHeaderProps) {
 
             <Button
               onClick={() => router.push("/auth/signin")}
-              className="bg-white hover:bg-gray-100 text-slate-800 px-6 py-2.5 rounded-xl font-semibold transition-all hover:scale-105 shadow-lg"
+                className="bg-white hover:bg-gray-100 text-slate-800 px-3 py-2 md:px-6 md:py-2.5 rounded-lg md:rounded-xl text-xs md:text-sm font-semibold transition-all hover:scale-105 shadow-lg"
             >
-              Sign In
+                <span className="md:hidden">In</span>
+                <span className="hidden md:inline">Sign In</span>
             </Button>
 
             <Button
               onClick={() => router.push("/auth/signup")}
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-slate-800 px-6 py-2.5 rounded-xl font-semibold bg-transparent"
+                className="border-white text-white hover:bg-white hover:text-slate-800 px-3 py-2 md:px-6 md:py-2.5 rounded-lg md:rounded-xl text-xs md:text-sm font-semibold bg-transparent"
             >
-              Sign Up
+                <span className="md:hidden">Up</span>
+                <span className="hidden md:inline">Sign Up</span>
             </Button>
           </>
         )}
