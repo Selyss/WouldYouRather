@@ -1,9 +1,9 @@
 import { CategoryChip } from "./category-chip";
 
 interface QuestionHeaderProps {
-  authorUsername: string;
+  authorUsername?: string | null;
   prompt?: string;
-  category?: "ETHICS" | "FUN";
+  category?: "GENERAL" | "ANIMALS" | "CAREER" | "ETHICS" | "FOOD" | "FUN" | "HEALTH" | "MONEY" | "POP_CULTURE" | "RELATIONSHIPS" | "SCI_FI" | "SUPERPOWERS" | "TRAVEL";
 }
 
 export function QuestionHeader({ authorUsername, prompt = "Would you rather...", category }: QuestionHeaderProps) {
@@ -16,7 +16,7 @@ export function QuestionHeader({ authorUsername, prompt = "Would you rather...",
         {prompt}
       </h2>
       <p className="text-slate-400 text-xs md:text-lg">
-        Created by {authorUsername}
+        {authorUsername ? `Created by ${authorUsername}` : "System Question"}
       </p>
     </div>
   );

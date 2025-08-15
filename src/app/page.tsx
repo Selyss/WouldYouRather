@@ -15,7 +15,7 @@ import { LoadingState, LoadingText } from "~/components/ui/loading-state";
 type Question = {
   id: number;
   prompt: string;
-  category: "ETHICS" | "FUN";
+  category: "GENERAL" | "ANIMALS" | "CAREER" | "ETHICS" | "FOOD" | "FUN" | "HEALTH" | "MONEY" | "POP_CULTURE" | "RELATIONSHIPS" | "SCI_FI" | "SUPERPOWERS" | "TRAVEL";
   sensitiveContent: boolean;
   score: number;
   responses: {
@@ -25,7 +25,7 @@ type Question = {
   }[];
   author: {
     username: string;
-  };
+  } | null;
   _count: {
     votes: number;
   };
@@ -154,7 +154,7 @@ export default function HomePage() {
               <>
                 {/* Question Title */}
                 <QuestionHeader
-                  authorUsername={question.author.username}
+                  authorUsername={question.author?.username}
                   prompt={question.prompt}
                   category={question.category}
                 />
