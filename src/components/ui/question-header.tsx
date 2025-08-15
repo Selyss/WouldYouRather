@@ -12,7 +12,7 @@ export function QuestionHeader({ authorUsername, prompt = "Would you rather...",
       <div className="mb-4 flex justify-center">
         {category && <CategoryChip category={category} />}
       </div>
-      <h2 className="hidden md:block font-serif font-black text-2xl md:text-4xl text-white mb-4 leading-tight px-4 md:px-8 lg:px-16">
+      <h2 className="font-serif font-black text-2xl md:text-4xl text-white mb-4 leading-tight px-4 md:px-8 lg:px-16">
         {prompt}
       </h2>
       <p className="text-slate-400 text-xs md:text-lg">
