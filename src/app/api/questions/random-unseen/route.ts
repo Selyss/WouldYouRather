@@ -10,19 +10,29 @@ export async function GET(req: NextRequest) {
     let unseenQuestion;
 
     if (userId) {
-      // Get user's sensitive content preference
+      // Get user's content preference
       const user = await db.user.findUnique({
         where: { id: userId },
-        select: { showSensitiveContent: true }
+        select: { contentPreference: true }
       });
 
-      const showSensitive = user?.showSensitiveContent ?? false;
+      const contentPreference = user?.contentPreference ?? "SAFE_ONLY";
+
+      // Determine sensitive content filter based on preference
+      let sensitiveContentFilter;
+      if (contentPreference === "ALL") {
+        sensitiveContentFilter = undefined; // Show all content
+      } else if (contentPreference === "SAFE_ONLY") {
+        sensitiveContentFilter = false; // Only non-sensitive content
+      } else if (contentPreference === "ADULT_ONLY") {
+        sensitiveContentFilter = true; // Only sensitive content
+      }
 
       // For logged-in users, find questions they haven't voted on yet
       unseenQuestion = await db.question.findFirst({
         where: {
-          // Filter based on sensitive content preference
-          sensitiveContent: showSensitive ? undefined : false,
+          // Filter based on content preference
+          sensitiveContent: sensitiveContentFilter,
           responses: {
             none: {
               votes: {

@@ -4,7 +4,7 @@ import { db } from "~/server/db";
 import { z } from "zod";
 
 const toggleSchema = z.object({
-  showSensitiveContent: z.boolean(),
+  contentPreference: z.enum(["ALL", "SAFE_ONLY", "ADULT_ONLY"]),
 });
 
 export async function POST(req: NextRequest) {
@@ -19,17 +19,17 @@ export async function POST(req: NextRequest) {
     }
 
     const body: unknown = await req.json();
-    const { showSensitiveContent } = toggleSchema.parse(body);
+    const { contentPreference } = toggleSchema.parse(body);
 
     const updatedUser = await db.user.update({
       where: { id: session.user.id },
-      data: { showSensitiveContent },
-      select: { showSensitiveContent: true }
+      data: { contentPreference },
+      select: { contentPreference: true }
     });
 
     return NextResponse.json({ 
       success: true, 
-      showSensitiveContent: updatedUser.showSensitiveContent 
+      contentPreference: updatedUser.contentPreference 
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.error("Toggle sensitive content error:", error);
+    console.error("Toggle content preference error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -60,14 +60,14 @@ export async function GET(req: NextRequest) {
 
     const user = await db.user.findUnique({
       where: { id: session.user.id },
-      select: { showSensitiveContent: true }
+      select: { contentPreference: true }
     });
 
     return NextResponse.json({ 
-      showSensitiveContent: user?.showSensitiveContent ?? false 
+      contentPreference: user?.contentPreference ?? "SAFE_ONLY" 
     });
   } catch (error) {
-    console.error("Get sensitive content preference error:", error);
+    console.error("Get content preference error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

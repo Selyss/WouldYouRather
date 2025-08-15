@@ -9,27 +9,27 @@ interface AppHeaderProps {
 
 export function AppHeader({ session }: AppHeaderProps) {
   const router = useRouter();
-  const [showSensitiveContent, setShowSensitiveContent] = useState(false);
-  const [isToggling, setIsToggling] = useState(false);
+  const [contentPreference, setContentPreference] = useState<"ALL" | "SAFE_ONLY" | "ADULT_ONLY">("SAFE_ONLY");
+  const [isChanging, setIsChanging] = useState(false);
 
-  // Fetch user's sensitive content preference when signed in
+  // Fetch user's content preference when signed in
   useEffect(() => {
     if (session?.user?.id) {
       fetch("/api/user/sensitive-content")
         .then(res => res.json())
         .then(data => {
-          if (data.showSensitiveContent !== undefined) {
-            setShowSensitiveContent(data.showSensitiveContent);
+          if (data.contentPreference) {
+            setContentPreference(data.contentPreference);
           }
         })
         .catch(console.error);
     }
   }, [session?.user?.id]);
 
-  const toggleSensitiveContent = async () => {
-    if (!session?.user?.id || isToggling) return;
-
-    setIsToggling(true);
+  const changeContentPreference = async (newPreference: "ALL" | "SAFE_ONLY" | "ADULT_ONLY") => {
+    if (!session?.user?.id || isChanging) return;
+    
+    setIsChanging(true);
     try {
       const response = await fetch("/api/user/sensitive-content", {
         method: "POST",
@@ -37,25 +37,41 @@ export function AppHeader({ session }: AppHeaderProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          showSensitiveContent: !showSensitiveContent,
+          contentPreference: newPreference,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        setShowSensitiveContent(data.showSensitiveContent);
-
+        setContentPreference(data.contentPreference);
+        
         // Refresh the page to reload questions with new filter
         window.location.reload();
       }
     } catch (error) {
-      console.error("Failed to toggle sensitive content:", error);
+      console.error("Failed to change content preference:", error);
     } finally {
-      setIsToggling(false);
+      setIsChanging(false);
     }
   };
 
-  return (
+  const getPreferenceLabel = (pref: string) => {
+    switch (pref) {
+      case "ALL": return "Mixed";
+      case "SAFE_ONLY": return "Safe";
+      case "ADULT_ONLY": return "18+";
+      default: return "Safe";
+    }
+  };
+
+  const getPreferenceColor = (pref: string) => {
+    switch (pref) {
+      case "ALL": return "bg-blue-600";
+      case "SAFE_ONLY": return "bg-green-600";
+      case "ADULT_ONLY": return "bg-red-600";
+      default: return "bg-green-600";
+    }
+  };  return (
     <header className="flex items-center justify-between px-4 md:px-8 py-2 md:py-6 bg-slate-800/80 backdrop-blur-sm border-b border-slate-700">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg">
@@ -74,22 +90,20 @@ export function AppHeader({ session }: AppHeaderProps) {
               <span className="text-slate-300 text-sm font-medium">Welcome, {session.user.username}!</span>
             </div>
 
-            {/* Sensitive Content Toggle */}
+            {/* Content Preference Selector */}
             <div className="flex items-center gap-2">
-              <button
-                onClick={toggleSensitiveContent}
-                disabled={isToggling}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 ${showSensitiveContent ? 'bg-blue-600' : 'bg-slate-600'
-                  } ${isToggling ? 'opacity-50 cursor-not-allowed' : ''}`}
+              <select
+                value={contentPreference}
+                onChange={(e) => changeContentPreference(e.target.value as "ALL" | "SAFE_ONLY" | "ADULT_ONLY")}
+                disabled={isChanging}
+                className={`px-3 py-1 rounded-lg text-xs md:text-sm font-medium border-0 focus:outline-none focus:ring-2 focus:ring-blue-500 ${getPreferenceColor(contentPreference)} text-white ${
+                  isChanging ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+                }`}
               >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${showSensitiveContent ? 'translate-x-6' : 'translate-x-1'
-                    }`}
-                />
-              </button>
-              <span className="text-slate-300 text-xs md:text-sm font-medium">
-                18+
-              </span>
+                <option value="SAFE_ONLY" className="bg-slate-700 text-white">Safe</option>
+                <option value="ALL" className="bg-slate-700 text-white">Mixed</option>
+                <option value="ADULT_ONLY" className="bg-slate-700 text-white">18+ Only</option>
+              </select>
             </div>
 
             <Button

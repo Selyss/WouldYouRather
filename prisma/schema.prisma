@@ -7,21 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                    String     @id @default(cuid())
-  username              String     @unique
-  password              String
-  showSensitiveContent  Boolean    @default(false)
-  createdAt             DateTime   @default(now())
-  accounts              Account[]
-  questions             Question[]
-  sessions              Session[]
-  votes                 Vote[]
+enum ContentPreference {
+  ALL         // See both sensitive and non-sensitive content
+  SAFE_ONLY   // See only non-sensitive content
+  ADULT_ONLY  // See only sensitive content
 }
 
 enum QuestionCategory {
   ETHICS
   FUN
+}
+
+model User {
+  id                    String            @id @default(cuid())
+  username              String            @unique
+  password              String
+  contentPreference     ContentPreference @default(SAFE_ONLY)
+  createdAt             DateTime          @default(now())
+  accounts              Account[]
+  questions             Question[]
+  sessions              Session[]
+  votes                 Vote[]
 }
 
 model Question {
