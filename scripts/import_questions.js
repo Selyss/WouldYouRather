@@ -73,8 +73,9 @@ async function importQuestions(filePath) {
           createdAt: new Date(),
           // authorId is null for system questions
           responses: {
-            create: data.responses.map(responseText => ({
-              text: responseText
+              create: data.responses.map((responseText, index) => ({
+                  text: responseText,
+                  order: index
             }))
           }
         }
