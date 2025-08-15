@@ -48,3 +48,5 @@ yarn-error.log*
 v0ui/
 
 backup.sql
+main-desktop/
+main-mobile/
