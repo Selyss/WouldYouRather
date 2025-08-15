@@ -15,6 +15,7 @@ export default function CreateQuestionPage() {
   const [prompt, setPrompt] = useState("Would you rather...");
   const [optionA, setOptionA] = useState("");
   const [optionB, setOptionB] = useState("");
+  const [category, setCategory] = useState<"ETHICS" | "FUN">("FUN");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -90,6 +91,7 @@ export default function CreateQuestionPage() {
           prompt: prompt.trim(),
           optionA: optionA.trim(),
           optionB: optionB.trim(),
+          category: category,
         }),
       });
 
@@ -143,6 +145,25 @@ export default function CreateQuestionPage() {
                 />
                 <div className="text-right text-sm text-slate-400 mt-1">
                   {prompt.length}/100 characters
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="category" className="block text-sm font-medium text-slate-300 mb-2">
+                  Category
+                </label>
+                <select
+                  id="category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value as "ETHICS" | "FUN")}
+                  disabled={isLoading}
+                  className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
+                >
+                  <option value="FUN">Fun</option>
+                  <option value="ETHICS">Ethics</option>
+                </select>
+                <div className="text-sm text-slate-400 mt-1">
+                  Choose whether this is a fun or ethical dilemma
                 </div>
               </div>
 

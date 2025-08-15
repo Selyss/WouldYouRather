@@ -15,6 +15,7 @@ import { LoadingState, LoadingText } from "~/components/ui/loading-state";
 type Question = {
   id: number;
   prompt: string;
+  category: "ETHICS" | "FUN";
   responses: {
     id: number;
     text: string;
@@ -150,7 +151,11 @@ export default function HomePage() {
           ) : (
               <>
                 {/* Question Title */}
-                <QuestionHeader authorUsername={question.author.username} prompt={question.prompt} />
+                <QuestionHeader
+                  authorUsername={question.author.username}
+                  prompt={question.prompt}
+                  category={question.category}
+                />
 
                 {/* Choice Cards */}
                 <div className="max-w-6xl mx-auto">
