@@ -57,13 +57,11 @@ export async function POST(
 
     // Check if user already voted on this question (only if logged in)
     if (userId) {
-      // Check if user has voted on ANY response of this question
+      // Fast duplicate check using direct questionId + userId index
       const existingVote = await db.vote.findFirst({
         where: {
           userId: userId,
-          response: {
-            questionId: questionId
-          }
+          questionId: questionId
         },
       });
 
@@ -78,6 +76,7 @@ export async function POST(
     // Create the vote (with or without userId)
     const voteData: any = {
       responseId: targetResponse.id,
+      questionId: questionId,
     };
 
     if (userId) {
