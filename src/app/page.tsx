@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { AppHeader } from "~/components/ui/app-header";
+import { AppLayout } from "~/components/ui/app-layout";
 import { QuestionHeader } from "~/components/ui/question-header";
 import { OptionCard } from "~/components/ui/option-card";
 import { VsButton, VsButtonMobile } from "~/components/ui/vs-button";
@@ -137,29 +137,35 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Header */}
-      <AppHeader session={session} />
+    <AppLayout>
+      {/* Error Message */}
+      {error && (
+        <div className="px-4 md:px-8 pt-6">
+          <ErrorMessage message={error} />
+        </div>
+      )}
 
-      {/* Main Content */}
-      <main className="px-4 md:px-8 py-2 md:py-12">
-        {/* Error Message */}
-        {error && <ErrorMessage message={error} />}
-
-        {isLoading && !question ? (
+      {isLoading && !question ? (
+        <div className="px-4 md:px-8 py-12">
           <LoadingText message="Loading question..." />
-        ) : !question ? (
+        </div>
+      ) : !question ? (
+          <div className="px-4 md:px-8 py-12">
             <EmptyState session={session} />
-          ) : (
-              <>
-                {/* Question Title */}
+          </div>
+        ) : (
+          <>
+            {/* Question Title */}
+              <div className="px-4 md:px-8 pt-6 pb-4 md:pt-12 md:pb-8">
                 <QuestionHeader
                   authorUsername={question.author?.username}
                   prompt={question.prompt}
                   category={question.category}
                 />
+              </div>
 
-                {/* Choice Cards */}
+              {/* Choice Cards */}
+              <div className="px-4 md:px-8 pb-6 md:pb-12">
                 <div className="max-w-6xl mx-auto">
                   {/* Desktop Layout */}
                   <div className="hidden md:grid md:grid-cols-2 gap-8 mb-8 relative">
@@ -242,9 +248,9 @@ export default function HomePage() {
                     />
                   )}
                 </div>
-              </>
-        )}
-      </main>
-    </div>
+              </div>
+        </>
+      )}
+    </AppLayout>
   );
 }

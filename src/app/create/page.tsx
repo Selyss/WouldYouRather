@@ -5,8 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AuthHeader } from "~/components/ui/auth-header";
-import { CreatePageHeader } from "~/components/ui/create-page-header";
+import { AppLayout } from "~/components/ui/app-layout";
 import Link from "next/link";
 
 export default function CreateQuestionPage() {
@@ -30,11 +29,8 @@ export default function CreateQuestionPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-900/5 to-transparent"></div>
-
-        {/* Header */}
-        <AuthHeader />        <main className="relative z-10 flex items-center justify-center min-h-[calc(100vh-84px)] px-4 py-12">
+      <AppLayout>
+        <div className="flex items-center justify-center min-h-screen px-4 py-12">
           <Card className="w-full max-w-md bg-slate-800/90 backdrop-blur-sm border-slate-700">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold text-white">Sign In Required</CardTitle>
@@ -51,8 +47,8 @@ export default function CreateQuestionPage() {
               </Button>
             </CardContent>
           </Card>
-        </main>
-      </div>
+        </div>
+      </AppLayout>
     );
   }
 
@@ -114,12 +110,9 @@ export default function CreateQuestionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-900/5 to-transparent"></div>
-
-      {/* Header */}
-      <CreatePageHeader username={session.user.username} />      {/* Main Content */}
-      <main className="relative z-10 max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <AppLayout>
+      {/* Main Content */}
+      <div className="max-w-2xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <Card className="bg-slate-800/90 backdrop-blur-sm border-slate-700">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">
@@ -255,7 +248,7 @@ export default function CreateQuestionPage() {
             </form>
           </CardContent>
         </Card>
-      </main>
-    </div>
+      </div>
+    </AppLayout>
   );
 }

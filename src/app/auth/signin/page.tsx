@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AuthHeader } from "~/components/ui/auth-header";
+import { AppLayout } from "~/components/ui/app-layout";
 import Link from "next/link";
 
 function SignInContent() {
@@ -43,12 +43,8 @@ function SignInContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-900/5 to-transparent"></div>
-
-      {/* Header */}
-      <AuthHeader />      {/* Main Content */}
-      <main className="relative z-10 flex items-center justify-center min-h-[calc(100vh-84px)] px-4 py-12">
+    <AppLayout>
+      <div className="flex items-center justify-center min-h-screen px-4 py-12">
         <Card className="w-full max-w-md bg-slate-800/90 backdrop-blur-sm border-slate-700">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">Sign In</CardTitle>
@@ -121,17 +117,15 @@ function SignInContent() {
             </div>
           </CardContent>
         </Card>
-      </main>
-    </div>
+      </div>
+    </AppLayout>
   );
 }
 
 function SignInFallback() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-900/5 to-transparent"></div>
-      <AuthHeader />
-      <main className="relative z-10 flex items-center justify-center min-h-[calc(100vh-84px)] px-4 py-12">
+    <AppLayout>
+      <div className="flex items-center justify-center min-h-screen px-4 py-12">
         <Card className="w-full max-w-md bg-slate-800/90 backdrop-blur-sm border-slate-700">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">Sign In</CardTitle>
@@ -143,8 +137,8 @@ function SignInFallback() {
             <div className="text-center text-slate-400">Loading...</div>
           </CardContent>
         </Card>
-      </main>
-    </div>
+      </div>
+    </AppLayout>
   );
 }
 
