@@ -80,10 +80,12 @@ export function AppSidebar({ session, onCollapseChange }: AppSidebarProps) {
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-                  <div className={`p-6 border-b border-slate-700 ${isCollapsed ? 'p-4' : ''}`}>
-            <Link href="/" className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
-                <span className="text-slate-800 text-lg font-bold">?</span>
+          <div className={`border-b border-slate-700 ${isCollapsed ? 'p-3' : 'p-6'}`}>
+            <Link href="/" className={`flex items-center gap-4 ${isCollapsed ? 'justify-center' : ''}`}>
+              <div className={`bg-white rounded-xl flex items-center justify-center shadow-lg flex-shrink-0 ${
+                isCollapsed ? 'w-8 h-8' : 'w-10 h-10'
+              }`}>
+                <span className={`text-slate-800 font-bold ${isCollapsed ? 'text-base' : 'text-lg'}`}>?</span>
               </div>
               {!isCollapsed && (
                 <div>
@@ -92,9 +94,7 @@ export function AppSidebar({ session, onCollapseChange }: AppSidebarProps) {
                 </div>
               )}
             </Link>
-          </div>
-
-          {/* Navigation */}
+          </div>          {/* Navigation */}
                   <nav className={`flex-1 space-y-2 ${isCollapsed ? 'p-2' : 'p-4'}`}>
             <Link
               href="/"
