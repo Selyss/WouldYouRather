@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Button } from "./button";
 import Link from "next/link";
-import { Home, Plus, User, Settings, LogOut, LogIn, UserPlus, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, Plus, User, Settings, LogOut, LogIn, UserPlus, ChevronLeft, ChevronRight, Grid3X3 } from "lucide-react";
 
 interface AppSidebarProps {
   session: any;
@@ -94,7 +94,9 @@ export function AppSidebar({ session, onCollapseChange }: AppSidebarProps) {
                 </div>
               )}
             </Link>
-          </div>          {/* Navigation */}
+                  </div>
+
+                  {/* Navigation */}
                   <nav className={`flex-1 space-y-2 ${isCollapsed ? 'p-2' : 'p-4'}`}>
             <Link
               href="/"
@@ -104,6 +106,15 @@ export function AppSidebar({ session, onCollapseChange }: AppSidebarProps) {
               <Home className="w-5 h-5 flex-shrink-0" />
               {!isCollapsed && <span className="font-medium">Home</span>}
             </Link>
+
+                      <Link
+                          href="/categories"
+                          className={`flex items-center gap-3 px-3 py-3 text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all ${isCollapsed ? 'justify-center' : ''}`}
+                          title={isCollapsed ? "Categories" : ""}
+                      >
+                          <Grid3X3 className="w-5 h-5 flex-shrink-0" />
+                          {!isCollapsed && <span className="font-medium">Categories</span>}
+                      </Link>
 
             {session && (
               <button
@@ -230,6 +241,15 @@ export function AppSidebar({ session, onCollapseChange }: AppSidebarProps) {
                   >
                       <Home className="w-5 h-5" />
                       <span className="text-xs font-medium">Home</span>
+                  </Link>
+
+                  {/* Categories */}
+                  <Link
+                      href="/categories"
+                      className="flex flex-col items-center gap-1 px-3 py-2 text-slate-300 hover:text-white transition-all"
+                  >
+                      <Grid3X3 className="w-5 h-5" />
+                      <span className="text-xs font-medium">Categories</span>
                   </Link>
 
                   {/* Create (if signed in) */}
