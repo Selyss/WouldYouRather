@@ -14,7 +14,7 @@ export default function CreateQuestionPage() {
   const [prompt, setPrompt] = useState("Would you rather...");
   const [optionA, setOptionA] = useState("");
   const [optionB, setOptionB] = useState("");
-  const [category, setCategory] = useState<"ETHICS" | "FUN">("FUN");
+  const [category, setCategory] = useState<"GENERAL" | "ANIMALS" | "CAREER" | "ETHICS" | "FOOD" | "FUN" | "HEALTH" | "MONEY" | "POP_CULTURE" | "RELATIONSHIPS" | "SCI_FI" | "SUPERPOWERS" | "TRAVEL">("GENERAL");
   const [sensitiveContent, setSensitiveContent] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -150,15 +150,26 @@ export default function CreateQuestionPage() {
                 <select
                   id="category"
                   value={category}
-                  onChange={(e) => setCategory(e.target.value as "ETHICS" | "FUN")}
+                  onChange={(e) => setCategory(e.target.value as "GENERAL" | "ANIMALS" | "CAREER" | "ETHICS" | "FOOD" | "FUN" | "HEALTH" | "MONEY" | "POP_CULTURE" | "RELATIONSHIPS" | "SCI_FI" | "SUPERPOWERS" | "TRAVEL")}
                   disabled={isLoading}
                   className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50"
                 >
-                  <option value="FUN">Fun</option>
+                  <option value="GENERAL">General</option>
+                  <option value="ANIMALS">Animals</option>
+                  <option value="CAREER">Career</option>
                   <option value="ETHICS">Ethics</option>
+                  <option value="FOOD">Food</option>
+                  <option value="FUN">Fun</option>
+                  <option value="HEALTH">Health</option>
+                  <option value="MONEY">Money</option>
+                  <option value="POP_CULTURE">Pop Culture</option>
+                  <option value="RELATIONSHIPS">Relationships</option>
+                  <option value="SCI_FI">Sci-Fi</option>
+                  <option value="SUPERPOWERS">Superpowers</option>
+                  <option value="TRAVEL">Travel</option>
                 </select>
                 <div className="text-sm text-slate-400 mt-1">
-                  Choose whether this is a fun or ethical dilemma
+                  Choose the category that best fits your question
                 </div>
               </div>
 
