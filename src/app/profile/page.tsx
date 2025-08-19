@@ -1,11 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import {
+  BarChart3,
+  Calendar,
+  Heart,
+  MessageSquare,
+  Settings,
+  Trophy,
+  User,
+} from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { AppLayout } from "~/components/ui/app-layout";
 import { Card, CardContent } from "~/components/ui/card";
 import { CategoryChip } from "~/components/ui/category-chip";
-import { BarChart3, Heart, Trophy, Calendar, User, MessageSquare } from "lucide-react";
 
 type ProfileData = {
   user: {
@@ -41,7 +50,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (status === "loading") return;
-    
+
     if (!session) {
       setError("You must be signed in to view your profile");
       setIsLoading(false);
@@ -71,16 +80,16 @@ export default function ProfilePage() {
 
   const formatJoinDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      year: 'numeric' 
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      year: "numeric",
     });
   };
 
   if (status === "loading" || isLoading) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex min-h-screen items-center justify-center">
           <div className="text-xl text-slate-300">Loading profile...</div>
         </div>
       </AppLayout>
@@ -90,12 +99,12 @@ export default function ProfilePage() {
   if (error) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex min-h-screen items-center justify-center">
           <div className="text-center">
-            <div className="text-xl text-red-400 mb-4">{error}</div>
-            <button 
-              onClick={() => window.location.href = "/auth/signin"}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg"
+            <div className="mb-4 text-xl text-red-400">{error}</div>
+            <button
+              onClick={() => (window.location.href = "/auth/signin")}
+              className="rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700"
             >
               Sign In
             </button>
@@ -108,7 +117,7 @@ export default function ProfilePage() {
   if (!profileData) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="flex min-h-screen items-center justify-center">
           <div className="text-xl text-slate-300">No profile data found</div>
         </div>
       </AppLayout>
@@ -117,48 +126,68 @@ export default function ProfilePage() {
 
   return (
     <AppLayout>
-      <div className="max-w-7xl mx-auto p-6 space-y-8">
+      <div className="mx-auto max-w-7xl space-y-8 p-6">
         {/* Profile Header */}
-        <div className="text-center">
-          <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">
-            <User className="w-12 h-12" />
+        <div className="relative text-center">
+          {/* Settings Gear Button */}
+          <Link
+            href="/settings"
+            className="absolute top-0 right-0 flex h-10 w-10 items-center justify-center rounded-full bg-slate-700/50 text-slate-400 transition-colors hover:bg-slate-700 hover:text-white"
+            title="Account Settings"
+          >
+            <Settings className="h-5 w-5" />
+          </Link>
+
+          <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-blue-600 text-3xl font-bold text-white">
+            <User className="h-12 w-12" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">@{profileData.user.username}</h1>
+          <h1 className="mb-2 text-3xl font-bold text-white">
+            @{profileData.user.username}
+          </h1>
           <p className="text-slate-400">
-            Question Creator • Member since {formatJoinDate(profileData.user.joinedAt)}
+            Question Creator • Member since{" "}
+            {formatJoinDate(profileData.user.joinedAt)}
           </p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card className="bg-slate-800/50 border-slate-700">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <Card className="border-slate-700 bg-slate-800/50">
             <CardContent className="p-6 text-center">
-              <BarChart3 className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-white">{profileData.stats.questionsCreated}</div>
+              <BarChart3 className="mx-auto mb-2 h-8 w-8 text-blue-500" />
+              <div className="text-2xl font-bold text-white">
+                {profileData.stats.questionsCreated}
+              </div>
               <div className="text-sm text-slate-400">Questions Created</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card className="border-slate-700 bg-slate-800/50">
             <CardContent className="p-6 text-center">
-              <Heart className="w-8 h-8 text-red-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-white">{profileData.stats.votesCount}</div>
+              <Heart className="mx-auto mb-2 h-8 w-8 text-red-500" />
+              <div className="text-2xl font-bold text-white">
+                {profileData.stats.votesCount}
+              </div>
               <div className="text-sm text-slate-400">Votes Cast</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card className="border-slate-700 bg-slate-800/50">
             <CardContent className="p-6 text-center">
-              <BarChart3 className="w-8 h-8 text-green-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-white">{profileData.stats.pointsEarned}</div>
+              <BarChart3 className="mx-auto mb-2 h-8 w-8 text-green-500" />
+              <div className="text-2xl font-bold text-white">
+                {profileData.stats.pointsEarned}
+              </div>
               <div className="text-sm text-slate-400">Points Earned</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800/50 border-slate-700">
+          <Card className="border-slate-700 bg-slate-800/50">
             <CardContent className="p-6 text-center">
-              <Trophy className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-white">#{profileData.stats.rank}</div>
+              <Trophy className="mx-auto mb-2 h-8 w-8 text-yellow-500" />
+              <div className="text-2xl font-bold text-white">
+                #{profileData.stats.rank}
+              </div>
               <div className="text-sm text-slate-400">Rank</div>
             </CardContent>
           </Card>
@@ -166,15 +195,19 @@ export default function ProfilePage() {
 
         {/* Recent Questions */}
         <div>
-          <h2 className="text-2xl font-bold text-white mb-6">Your Recent Questions</h2>
+          <h2 className="mb-6 text-2xl font-bold text-white">
+            Your Recent Questions
+          </h2>
           {profileData.recentQuestions.length === 0 ? (
-            <Card className="bg-slate-800/50 border-slate-700">
+            <Card className="border-slate-700 bg-slate-800/50">
               <CardContent className="p-8 text-center">
-                <MessageSquare className="w-12 h-12 text-slate-500 mx-auto mb-4" />
-                <p className="text-slate-400 text-lg mb-4">You haven't created any questions yet</p>
-                <button 
-                  onClick={() => window.location.href = "/create"}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold"
+                <MessageSquare className="mx-auto mb-4 h-12 w-12 text-slate-500" />
+                <p className="mb-4 text-lg text-slate-400">
+                  You haven't created any questions yet
+                </p>
+                <button
+                  onClick={() => (window.location.href = "/create")}
+                  className="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
                 >
                   Create Your First Question
                 </button>
@@ -183,36 +216,45 @@ export default function ProfilePage() {
           ) : (
             <div className="space-y-4">
               {profileData.recentQuestions.map((question) => (
-                <Card key={question.id} className="bg-slate-800/50 border-slate-700 hover:bg-slate-800/70 transition-colors">
+                <Card
+                  key={question.id}
+                  className="border-slate-700 bg-slate-800/50 transition-colors hover:bg-slate-800/70"
+                >
                   <CardContent className="p-6">
-                    <div className="flex justify-between items-start mb-4">
+                    <div className="mb-4 flex items-start justify-between">
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-white mb-2">{question.prompt}</h3>
+                        <h3 className="mb-2 text-lg font-semibold text-white">
+                          {question.prompt}
+                        </h3>
                         <div className="flex flex-wrap gap-4 text-sm text-slate-400">
                           <span className="flex items-center gap-1">
                             <CategoryChip category={question.category as any} />
                           </span>
                           <span className="flex items-center gap-1">
-                            <Heart className="w-4 h-4" />
+                            <Heart className="h-4 w-4" />
                             {question.votes} votes
                           </span>
                           <span className="flex items-center gap-1">
-                            <Calendar className="w-4 h-4" />
+                            <Calendar className="h-4 w-4" />
                             {new Date(question.createdAt).toLocaleDateString()}
                           </span>
                         </div>
                       </div>
                     </div>
-                    
+
                     {question.responses.length > 0 && (
                       <div className="flex gap-4 text-sm">
                         <div className="flex-1">
-                          <span className="text-blue-400 font-medium">A:</span>
-                          <span className="text-slate-300 ml-2">{question.responses[0]?.text}</span>
+                          <span className="font-medium text-blue-400">A:</span>
+                          <span className="ml-2 text-slate-300">
+                            {question.responses[0]?.text}
+                          </span>
                         </div>
                         <div className="flex-1">
-                          <span className="text-red-400 font-medium">B:</span>
-                          <span className="text-slate-300 ml-2">{question.responses[1]?.text}</span>
+                          <span className="font-medium text-red-400">B:</span>
+                          <span className="ml-2 text-slate-300">
+                            {question.responses[1]?.text}
+                          </span>
                         </div>
                       </div>
                     )}
