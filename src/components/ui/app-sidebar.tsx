@@ -116,26 +116,17 @@ export function AppSidebar({ session, onCollapseChange }: AppSidebarProps) {
                           {!isCollapsed && <span className="font-medium">Categories</span>}
                       </Link>
 
-                      <Link
+                      {/* <Link
                           href="/leaderboard"
                           className={`flex items-center gap-3 px-3 py-3 text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all ${isCollapsed ? 'justify-center' : ''}`}
                           title={isCollapsed ? "Leaderboard" : ""}
                       >
                           <Trophy className="w-5 h-5 flex-shrink-0" />
                           {!isCollapsed && <span className="font-medium">Leaderboard</span>}
-                      </Link>
+                      </Link> */}
 
             {session && (
               <>
-                <Link
-                  href="/profile"
-                  className={`flex items-center gap-3 px-3 py-3 text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all ${isCollapsed ? 'justify-center' : ''}`}
-                  title={isCollapsed ? "Profile" : ""}
-                >
-                  <User className="w-5 h-5 flex-shrink-0" />
-                  {!isCollapsed && <span className="font-medium">Profile</span>}
-                </Link>
-
                 <button
                   onClick={() => router.push("/create")}
                   className={`flex items-center gap-3 px-3 py-3 text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all w-full text-left ${isCollapsed ? 'justify-center' : ''}`}
@@ -144,6 +135,15 @@ export function AppSidebar({ session, onCollapseChange }: AppSidebarProps) {
                   <Plus className="w-5 h-5 flex-shrink-0" />
                   {!isCollapsed && <span className="font-medium">Create Question</span>}
                 </button>
+
+                <Link
+                  href="/profile"
+                  className={`flex items-center gap-3 px-3 py-3 text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all ${isCollapsed ? 'justify-center' : ''}`}
+                  title={isCollapsed ? "Profile" : ""}
+                >
+                  <User className="w-5 h-5 flex-shrink-0" />
+                  {!isCollapsed && <span className="font-medium">Profile</span>}
+                </Link>
               </>
             )}
           </nav>
@@ -281,6 +281,17 @@ export function AppSidebar({ session, onCollapseChange }: AppSidebarProps) {
                           <Plus className="w-5 h-5" />
                           <span className="text-xs font-medium">Create</span>
                       </button>
+                  )}
+
+                  {/* Profile (if signed in) */}
+                  {session && (
+                      <Link
+                          href="/profile"
+                          className="flex flex-col items-center gap-1 px-3 py-2 text-slate-300 hover:text-white transition-all"
+                      >
+                          <User className="w-5 h-5" />
+                          <span className="text-xs font-medium">Profile</span>
+                      </Link>
                   )}
 
                   {/* User Menu Toggle */}
