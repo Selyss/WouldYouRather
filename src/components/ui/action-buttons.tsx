@@ -1,4 +1,4 @@
-import { Button } from "./button";
+import { ArrowRight } from "lucide-react";
 
 interface ActionButtonsProps {
   isLoading: boolean;
@@ -6,19 +6,23 @@ interface ActionButtonsProps {
   onShareResult: () => void;
 }
 
-export function ActionButtons({ isLoading, onNextQuestion, onShareResult }: ActionButtonsProps) {
+export function ActionButtons({
+  isLoading,
+  onNextQuestion,
+}: ActionButtonsProps) {
   return (
-    <div className="text-center space-y-4">
-      <Button
+    <div className="text-center">
+      <button
         onClick={onNextQuestion}
         disabled={isLoading}
-        className="bg-white hover:bg-gray-100 text-slate-800 px-8 py-4 rounded-xl text-lg font-bold transition-all hover:scale-105 shadow-lg disabled:opacity-50 disabled:hover:scale-100"
+        className="inline-flex items-center space-x-2 rounded-xl bg-gray-100 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200 disabled:opacity-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
       >
-        {isLoading ? "Loading..." : "Next Challenge →"}
-      </Button>
+        <span>{isLoading ? "Loading..." : "Next Question"}</span>
+        {!isLoading && <ArrowRight size={18} />}
+      </button>
 
-          {/* TODO: add back later */}
-          {/* <div className="flex flex-col sm:flex-row gap-3 justify-center">
+      {/* TODO: add back later */}
+      {/* <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <Button
           onClick={onShareResult}
           variant="outline"

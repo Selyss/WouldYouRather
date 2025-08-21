@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Clock, Flame, Users } from "lucide-react";
+import { Clock, Flame, Users } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { ActionButtons } from "~/components/ui/action-buttons";
@@ -298,18 +298,6 @@ export default function HomePage() {
                   onNextQuestion={() => void loadNextQuestion()}
                   onShareResult={shareResult}
                 />
-
-                {/* Next Question Button */}
-                <div className="mt-6 text-center">
-                  <button
-                    onClick={() => void loadNextQuestion()}
-                    disabled={isLoading}
-                    className="inline-flex items-center space-x-2 rounded-xl bg-gray-100 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200 disabled:opacity-50 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-                  >
-                    <span>Next Question</span>
-                    <ArrowRight size={18} />
-                  </button>
-                </div>
               </div>
             )}
           </>
