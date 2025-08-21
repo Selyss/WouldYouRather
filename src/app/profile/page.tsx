@@ -129,16 +129,14 @@ export default function ProfilePage() {
         <div className="mx-auto max-w-4xl space-y-6 p-6">
           {/* Profile Header */}
           <div className="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
-            <div className="relative h-40 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 via-purple-600/80 to-pink-600/80"></div>
-            </div>
-            <div className="relative px-6 pb-6">
-              <div className="-mt-20 mb-6 flex flex-col md:flex-row md:items-end md:justify-between">
-                <div className="flex flex-col space-y-4 md:flex-row md:items-end md:space-y-0 md:space-x-6">
-                  <div className="mx-auto flex h-32 w-32 items-center justify-center rounded-2xl border-4 border-white bg-blue-600 shadow-xl md:mx-0 dark:border-gray-800">
-                    <User className="h-16 w-16 text-white" />
+            <div className="relative h-32 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700"></div>
+            <div className="relative px-6 pt-6 pb-6">
+              <div className="-mt-16 mb-6 flex flex-col md:flex-row md:items-start md:justify-between">
+                <div className="flex flex-col space-y-4 md:flex-row md:items-start md:space-y-0 md:space-x-6">
+                  <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl border-4 border-white bg-blue-600 shadow-xl md:mx-0 dark:border-gray-800">
+                    <User className="h-12 w-12 text-white" />
                   </div>
-                  <div className="text-center md:pb-4 md:text-left">
+                  <div className="text-center md:pt-2 md:text-left">
                     <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
                       @{profileData.user.username}
                     </h1>
@@ -150,7 +148,7 @@ export default function ProfilePage() {
                     </div>
                   </div>
                 </div>
-                <div className="mt-4 flex justify-center space-x-3 md:mt-0 md:justify-end md:pb-4">
+                <div className="mt-4 flex justify-center space-x-3 md:mt-2 md:justify-end">
                   <button className="flex items-center space-x-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
                     <Edit3 size={16} />
                     <span>Edit Profile</span>
