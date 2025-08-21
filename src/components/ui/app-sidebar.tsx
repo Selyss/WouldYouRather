@@ -1,6 +1,6 @@
 "use client";
 
-import { Grid3X3, Home, Moon, Plus, Sun, Trophy, User } from "lucide-react";
+import { Grid3X3, Home, Moon, Plus, Sun, User } from "lucide-react";
 import { type Session } from "next-auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,12 +36,13 @@ export function AppSidebar({ session }: AppSidebarProps) {
       href: "/categories",
     },
     { id: "create", icon: Plus, label: "Create", href: "/create" },
-    {
-      id: "leaderboard",
-      icon: Trophy,
-      label: "Leaderboard",
-      href: "/leaderboard",
-    }, // PLACEHOLDER: leaderboard route
+    // TODO: Add leaderboard when implemented
+    // {
+    //   id: "leaderboard",
+    //   icon: Trophy,
+    //   label: "Leaderboard",
+    //   href: "/leaderboard",
+    // },
     { id: "profile", icon: User, label: "Profile", href: "/profile" },
   ];
 
