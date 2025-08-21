@@ -120,6 +120,12 @@ export default function HomePage() {
     }
   };
 
+  const handleSkip = () => {
+    if (!question) return;
+    // Just load a new question without recording a vote
+    void loadNextQuestion();
+  };
+
   const handleVote = async (choice: "A" | "B") => {
     if (!question || hasVoted) return;
 
@@ -283,6 +289,7 @@ export default function HomePage() {
               <QuestionCard
                 question={question}
                 onVote={handleVote}
+                onSkip={handleSkip}
                 userVote={selectedOption ?? undefined}
                 showResults={hasVoted}
                 voteResults={voteResults ?? undefined}

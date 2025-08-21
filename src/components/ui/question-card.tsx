@@ -1,4 +1,4 @@
-import { MessageCircle, User } from "lucide-react";
+import { MessageCircle, SkipForward, User } from "lucide-react";
 import { useState } from "react";
 
 interface QuestionCardProps {
@@ -11,6 +11,7 @@ interface QuestionCardProps {
     _count?: { votes: number };
   };
   onVote: (choice: "A" | "B") => void;
+  onSkip?: () => void;
   userVote?: "A" | "B";
   showResults?: boolean;
   voteResults?: {
@@ -25,6 +26,7 @@ interface QuestionCardProps {
 export function QuestionCard({
   question,
   onVote,
+  onSkip,
   userVote,
   showResults = false,
   voteResults,
@@ -41,8 +43,8 @@ export function QuestionCard({
     setTimeout(() => setIsAnimating(false), 600);
   };
 
-  const optionA = question.responses.find((r) => r.order === 0)?.text || "";
-  const optionB = question.responses.find((r) => r.order === 1)?.text || "";
+  const optionA = question.responses.find((r) => r.order === 0)?.text ?? "";
+  const optionB = question.responses.find((r) => r.order === 1)?.text ?? "";
 
   return (
     <div
@@ -59,7 +61,7 @@ export function QuestionCard({
           </div>
           <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
             <User size={16} className="mr-1" />
-            {question.author?.username || "Anonymous"}
+            {question.author?.username ?? "Anonymous"}
           </div>
         </div>
 
@@ -193,6 +195,18 @@ export function QuestionCard({
             {question._count?.votes?.toLocaleString() ?? 0} votes
           </span>
         </div>
+
+        {/* Skip Button - only show when no vote has been made and not showing results */}
+        {!userVote && !showResults && onSkip && (
+          <button
+            onClick={onSkip}
+            disabled={isLoading}
+            className="flex items-center space-x-2 rounded-lg border border-gray-300 bg-transparent px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 disabled:opacity-50 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-600"
+          >
+            <SkipForward size={16} />
+            <span>Skip</span>
+          </button>
+        )}
       </div>
     </div>
   );
