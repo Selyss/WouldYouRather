@@ -7,7 +7,6 @@ import {
   MessageSquare,
   Settings,
   Target,
-  Trophy,
   User,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -130,8 +129,8 @@ export default function ProfilePage() {
         <div className="mx-auto max-w-4xl space-y-6 p-6">
           {/* Profile Header */}
           <div className="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
-            <div className="relative h-40 bg-gradient-to-r from-blue-600 to-purple-600">
-              <div className="bg-opacity-10 absolute inset-0 bg-black"></div>
+            <div className="relative h-40 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 via-purple-600/80 to-pink-600/80"></div>
             </div>
             <div className="relative px-6 pb-6">
               <div className="-mt-20 mb-6 flex flex-col md:flex-row md:items-end md:justify-between">
@@ -167,7 +166,7 @@ export default function ProfilePage() {
               </div>
 
               {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+              <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
                 <div className="rounded-xl border border-blue-300 bg-gradient-to-br from-blue-100 to-blue-200 p-5 text-center shadow-lg dark:border-blue-700 dark:from-blue-900/50 dark:to-blue-800/50">
                   <div className="mb-2 flex items-center justify-center">
                     <Target
@@ -210,6 +209,7 @@ export default function ProfilePage() {
                     Current Streak
                   </div>
                 </div>
+                {/* Commented out purple rank component as requested
                 <div className="rounded-xl border border-purple-300 bg-gradient-to-br from-purple-100 to-purple-200 p-5 text-center shadow-lg dark:border-purple-700 dark:from-purple-900/50 dark:to-purple-800/50">
                   <div className="mb-2 flex items-center justify-center">
                     <Trophy
@@ -224,6 +224,7 @@ export default function ProfilePage() {
                     Rank
                   </div>
                 </div>
+                */}
               </div>
             </div>
           </div>
