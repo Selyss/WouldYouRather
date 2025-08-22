@@ -57,7 +57,7 @@ export function AppSidebar({ session }: AppSidebarProps) {
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r from-slate-500 to-slate-600">
                   <span className="text-lg font-bold text-white">WR</span>
                 </div>
-                <h1 className="bg-gradient-to-r from-slate-600 to-slate-700 bg-clip-text text-2xl font-bold text-transparent dark:from-slate-400 dark:to-slate-500">
+                <h1 className="text-2xl font-bold text-black dark:text-white">
                   Would You Rather
                 </h1>
               </Link>

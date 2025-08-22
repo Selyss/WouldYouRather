@@ -182,51 +182,6 @@ export default function HomePage() {
   return (
     <AppLayout>
       <div className="mx-auto max-w-4xl">
-        {/* Welcome Header */}
-        {session?.user && (
-          <div className="mb-4 px-4 pt-3 md:px-6">
-            <div className="rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 p-4 text-white dark:from-slate-700 dark:to-slate-800">
-              <h2 className="mb-3 text-2xl font-bold">
-                Welcome back, {session.user.name ?? session.user.username}! 👋
-              </h2>
-
-              <div className="grid grid-cols-3 gap-2">
-                <div className="rounded-lg bg-white/10 p-2 backdrop-blur">
-                  <div className="flex items-center space-x-1">
-                    <Flame className="text-orange-300" size={16} />
-                    <span className="text-sm text-blue-100 dark:text-blue-200">
-                      Streak
-                    </span>
-                  </div>
-                  <div className="text-xl font-bold">3</div>
-                </div>
-                <div className="rounded-lg bg-white/10 p-2 backdrop-blur">
-                  <div className="flex items-center space-x-1">
-                    <Users className="text-emerald-300" size={16} />
-                    <span className="text-sm text-blue-100 dark:text-blue-200">
-                      Questions
-                    </span>
-                  </div>
-                  <div className="text-xl font-bold">
-                    {userStats?.questionsCreated ?? 0}
-                  </div>
-                </div>
-                <div className="rounded-lg bg-white/10 p-2 backdrop-blur">
-                  <div className="flex items-center space-x-1">
-                    <Clock className="text-yellow-300" size={16} />
-                    <span className="text-sm text-blue-100 dark:text-blue-200">
-                      Answered
-                    </span>
-                  </div>
-                  <div className="text-xl font-bold">
-                    {userStats?.votesCount ?? 0}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Error Message */}
         {error && (
           <div className="mb-6 px-4 md:px-8">
