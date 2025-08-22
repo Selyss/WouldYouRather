@@ -80,7 +80,7 @@ export function QuestionCard({
             onClick={() => handleVote("A")}
           >
             <div
-              className={`rounded-xl border-2 p-6 transition-all duration-300 ${
+              className={`rounded-xl border-2 p-8 transition-all duration-300 ${
                 userVote === "A"
                   ? "border-blue-500 bg-blue-50 shadow-md dark:bg-blue-900/30"
                   : userVote || showResults
@@ -92,20 +92,20 @@ export function QuestionCard({
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <div className="mb-3 flex items-center">
-                    <span className="mr-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-lg font-bold text-white">
+                  <div className="mb-4 flex items-center">
+                    <span className="mr-6 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-xl font-bold text-white">
                       A
                     </span>
-                    <span className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                    <span className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                       Option A
                     </span>
                   </div>
-                  <p className="ml-14 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                  <p className="ml-18 text-xl leading-relaxed text-gray-700 dark:text-gray-300">
                     {optionA}
                   </p>
                 </div>
                 {(userVote || showResults) && voteResults && (
-                  <div className="ml-4 text-right">
+                  <div className="ml-6 text-right">
                     <div className="text-3xl font-bold text-blue-600">
                       {voteResults.aPercentage}%
                     </div>
@@ -116,7 +116,7 @@ export function QuestionCard({
                 )}
               </div>
               {(userVote || showResults) && voteResults && (
-                <div className="mt-4 ml-14">
+                <div className="mt-6 ml-18">
                   <div className="h-3 w-full rounded-full bg-gray-200 dark:bg-gray-600">
                     <div
                       className="h-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-1000 ease-out"
@@ -138,7 +138,7 @@ export function QuestionCard({
             onClick={() => handleVote("B")}
           >
             <div
-              className={`rounded-xl border-2 p-6 transition-all duration-300 ${
+              className={`rounded-xl border-2 p-8 transition-all duration-300 ${
                 userVote === "B"
                   ? "border-purple-500 bg-purple-50 shadow-md dark:bg-purple-900/30"
                   : userVote || showResults
@@ -150,20 +150,20 @@ export function QuestionCard({
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
-                  <div className="mb-3 flex items-center">
-                    <span className="mr-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-lg font-bold text-white">
+                  <div className="mb-4 flex items-center">
+                    <span className="mr-6 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-xl font-bold text-white">
                       B
                     </span>
-                    <span className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                    <span className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                       Option B
                     </span>
                   </div>
-                  <p className="ml-14 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                  <p className="ml-18 text-xl leading-relaxed text-gray-700 dark:text-gray-300">
                     {optionB}
                   </p>
                 </div>
                 {(userVote || showResults) && voteResults && (
-                  <div className="ml-4 text-right">
+                  <div className="ml-6 text-right">
                     <div className="text-3xl font-bold text-purple-600">
                       {voteResults.bPercentage}%
                     </div>
@@ -174,7 +174,7 @@ export function QuestionCard({
                 )}
               </div>
               {(userVote || showResults) && voteResults && (
-                <div className="mt-4 ml-14">
+                <div className="mt-6 ml-18">
                   <div className="h-3 w-full rounded-full bg-gray-200 dark:bg-gray-600">
                     <div
                       className="h-3 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 transition-all duration-1000 ease-out"
