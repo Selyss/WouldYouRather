@@ -13,32 +13,32 @@ type Category = {
   count: number;
 };
 
-// Map category values to gradient color classes
+// Map category values to soft, solid color classes
 const getCategoryColor = (categoryValue: string): string => {
   const normalizedValue = categoryValue.toLowerCase();
   const colorMap: Record<string, string> = {
-    general: "bg-gradient-to-r from-blue-500 to-blue-600",
-    animals: "bg-gradient-to-r from-green-500 to-green-600",
-    career: "bg-gradient-to-r from-purple-500 to-purple-600",
-    ethics: "bg-gradient-to-r from-red-500 to-red-600",
-    food: "bg-gradient-to-r from-yellow-500 to-orange-600",
-    fun: "bg-gradient-to-r from-pink-500 to-pink-600",
-    health: "bg-gradient-to-r from-teal-500 to-teal-600",
-    money: "bg-gradient-to-r from-emerald-500 to-emerald-600",
-    pop_culture: "bg-gradient-to-r from-indigo-500 to-indigo-600",
-    popculture: "bg-gradient-to-r from-indigo-500 to-indigo-600", // Alternative naming
-    relationships: "bg-gradient-to-r from-rose-500 to-rose-600",
-    sci_fi: "bg-gradient-to-r from-cyan-500 to-cyan-600",
-    scifi: "bg-gradient-to-r from-cyan-500 to-cyan-600", // Alternative naming
-    superpowers: "bg-gradient-to-r from-violet-500 to-violet-600",
-    travel: "bg-gradient-to-r from-sky-500 to-sky-600",
+    general: "bg-blue-400 dark:bg-blue-500",
+    animals: "bg-green-400 dark:bg-green-500",
+    career: "bg-purple-400 dark:bg-purple-500",
+    ethics: "bg-red-400 dark:bg-red-500",
+    food: "bg-orange-400 dark:bg-orange-500",
+    fun: "bg-pink-400 dark:bg-pink-500",
+    health: "bg-teal-400 dark:bg-teal-500",
+    money: "bg-emerald-400 dark:bg-emerald-500",
+    pop_culture: "bg-indigo-400 dark:bg-indigo-500",
+    popculture: "bg-indigo-400 dark:bg-indigo-500", // Alternative naming
+    relationships: "bg-rose-400 dark:bg-rose-500",
+    sci_fi: "bg-cyan-400 dark:bg-cyan-500",
+    scifi: "bg-cyan-400 dark:bg-cyan-500", // Alternative naming
+    superpowers: "bg-violet-400 dark:bg-violet-500",
+    travel: "bg-sky-400 dark:bg-sky-500",
     // Add common variations
-    technology: "bg-gradient-to-r from-slate-500 to-slate-600",
-    sports: "bg-gradient-to-r from-amber-500 to-amber-600",
-    entertainment: "bg-gradient-to-r from-fuchsia-500 to-fuchsia-600",
+    technology: "bg-slate-400 dark:bg-slate-500",
+    sports: "bg-amber-400 dark:bg-amber-500",
+    entertainment: "bg-fuchsia-400 dark:bg-fuchsia-500",
   };
   return (
-    colorMap[normalizedValue] ?? "bg-gradient-to-r from-gray-500 to-gray-600"
+    colorMap[normalizedValue] ?? "bg-gray-400 dark:bg-gray-500"
   );
 };
 
@@ -160,13 +160,13 @@ export default function CategoriesPage() {
                 className="transform cursor-pointer overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-gray-800"
               >
                 <Link href={`/categories/${category.value.toLowerCase()}`}>
-                  <div className={`${colorClass} p-6 text-white`}>
+                  <div className={`${colorClass} p-6`}>
                     <div className="mb-4 flex items-center justify-between">
                       <div className="text-4xl">{category.emoji}</div>
-                      <ArrowRight size={24} className="opacity-70" />
+                      <ArrowRight size={24} className="text-white/80" />
                     </div>
-                    <h3 className="mb-2 text-xl font-bold">{category.label}</h3>
-                    <p className="text-sm text-white/80">
+                    <h3 className="mb-2 text-xl font-bold text-white">{category.label}</h3>
+                    <p className="text-sm text-white/90">
                       {category.description}
                     </p>
                   </div>
