@@ -64,7 +64,6 @@ export default function HomePage() {
   const [error, setError] = useState("");
   const [selectedOption, setSelectedOption] = useState<"A" | "B" | null>(null);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
-  const [filter, setFilter] = useState<"all" | "unanswered">("all");
 
   useEffect(() => {
     if (status === "loading") return;
@@ -230,29 +229,6 @@ export default function HomePage() {
             </div>
           </div>
         )}
-
-        {/* Filter Tabs */}
-        <div className="mb-6 px-4 md:px-8">
-          <div className="flex space-x-2 overflow-x-auto">
-            {[
-              { key: "all", label: "All Questions", icon: Users },
-              { key: "unanswered", label: "New for You", icon: Clock },
-            ].map(({ key, label, icon: Icon }) => (
-              <button
-                key={key}
-                onClick={() => setFilter(key as "all" | "unanswered")}
-                className={`flex items-center space-x-2 rounded-xl px-4 py-2 font-medium whitespace-nowrap transition-all duration-200 ${
-                  filter === key
-                    ? "bg-blue-100 text-blue-700 shadow-sm dark:bg-blue-900 dark:text-blue-300"
-                    : "bg-white text-gray-600 shadow-sm hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-                }`}
-              >
-                <Icon size={16} />
-                <span>{label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
 
         {/* Error Message */}
         {error && (
