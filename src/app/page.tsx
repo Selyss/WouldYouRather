@@ -258,7 +258,7 @@ export default function HomePage() {
         ) : (
           <>
             {/* Main Question Card */}
-            <div className="px-4 pb-6 md:px-8 md:pb-12">
+                <div className="px-4 pb-6 md:px-6 md:pb-12">
               <QuestionCard
                 question={question}
                 onVote={handleVote}
@@ -272,7 +272,7 @@ export default function HomePage() {
 
             {/* Action Buttons */}
             {hasVoted && (
-              <div className="px-4 md:px-8">
+                  <div className="px-4 md:px-6">
                 <ActionButtons
                   isLoading={isLoading}
                   onNextQuestion={() => void loadNextQuestion()}
