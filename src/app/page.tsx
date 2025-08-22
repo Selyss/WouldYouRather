@@ -184,44 +184,41 @@ export default function HomePage() {
       <div className="mx-auto max-w-4xl">
         {/* Welcome Header */}
         {session?.user && (
-          <div className="mb-8 px-4 pt-6 md:px-8">
-            <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white dark:from-blue-700 dark:to-purple-700">
-              <h2 className="mb-2 text-2xl font-bold">
+          <div className="mb-4 px-4 pt-3 md:px-6">
+            <div className="rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white dark:from-blue-700 dark:to-purple-700">
+              <h2 className="mb-3 text-2xl font-bold">
                 Welcome back, {session.user.name ?? session.user.username}! 👋
               </h2>
-              <p className="mb-4 text-blue-100 dark:text-blue-200">
-                Ready to make some tough choices? You&apos;re on a 3 day streak!
-              </p>
 
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-                <div className="rounded-xl bg-white/10 p-3 backdrop-blur">
-                  <div className="flex items-center space-x-2">
-                    <Flame className="text-orange-300" size={20} />
+              <div className="grid grid-cols-3 gap-2">
+                <div className="rounded-lg bg-white/10 p-2 backdrop-blur">
+                  <div className="flex items-center space-x-1">
+                    <Flame className="text-orange-300" size={16} />
                     <span className="text-sm text-blue-100 dark:text-blue-200">
                       Streak
                     </span>
                   </div>
-                  <div className="text-2xl font-bold">3</div>
+                  <div className="text-xl font-bold">3</div>
                 </div>
-                <div className="rounded-xl bg-white/10 p-3 backdrop-blur">
-                  <div className="flex items-center space-x-2">
-                    <Users className="text-purple-300" size={20} />
+                <div className="rounded-lg bg-white/10 p-2 backdrop-blur">
+                  <div className="flex items-center space-x-1">
+                    <Users className="text-purple-300" size={16} />
                     <span className="text-sm text-blue-100 dark:text-blue-200">
                       Questions
                     </span>
                   </div>
-                  <div className="text-2xl font-bold">
+                  <div className="text-xl font-bold">
                     {userStats?.questionsCreated ?? 0}
                   </div>
                 </div>
-                <div className="rounded-xl bg-white/10 p-3 backdrop-blur">
-                  <div className="flex items-center space-x-2">
-                    <Clock className="text-yellow-300" size={20} />
+                <div className="rounded-lg bg-white/10 p-2 backdrop-blur">
+                  <div className="flex items-center space-x-1">
+                    <Clock className="text-yellow-300" size={16} />
                     <span className="text-sm text-blue-100 dark:text-blue-200">
                       Answered
                     </span>
                   </div>
-                  <div className="text-2xl font-bold">
+                  <div className="text-xl font-bold">
                     {userStats?.votesCount ?? 0}
                   </div>
                 </div>
