@@ -35,13 +35,13 @@ export function OptionCard({
           "border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700",
       }
     : {
-        gradient: "from-purple-500 to-purple-600",
+        gradient: "from-red-500 to-red-600",
         selectedBorder:
-          "border-purple-500 bg-purple-50 dark:bg-purple-900/30 shadow-md",
+          "border-red-500 bg-red-50 dark:bg-red-900/30 shadow-md",
         hoverBorder:
-          "border-purple-300 bg-purple-50 dark:bg-purple-900/20 shadow-sm",
+          "border-red-300 bg-red-50 dark:bg-red-900/20 shadow-sm",
         defaultBorder:
-          "border-gray-200 dark:border-gray-600 hover:border-purple-200 dark:hover:border-purple-400",
+          "border-gray-200 dark:border-gray-600 hover:border-red-200 dark:hover:border-red-400",
         votedBorder:
           "border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700",
       };

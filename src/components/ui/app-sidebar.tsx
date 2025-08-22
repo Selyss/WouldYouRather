@@ -54,10 +54,10 @@ export function AppSidebar({ session }: AppSidebarProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Link href="/" className="flex items-center space-x-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-purple-600">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-r from-slate-500 to-slate-600">
                   <span className="text-lg font-bold text-white">WR</span>
                 </div>
-                <h1 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-2xl font-bold text-transparent dark:from-blue-400 dark:to-purple-400">
+                <h1 className="bg-gradient-to-r from-slate-600 to-slate-700 bg-clip-text text-2xl font-bold text-transparent dark:from-slate-400 dark:to-slate-500">
                   Would You Rather
                 </h1>
               </Link>

@@ -185,7 +185,7 @@ export default function HomePage() {
         {/* Welcome Header */}
         {session?.user && (
           <div className="mb-4 px-4 pt-3 md:px-6">
-            <div className="rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white dark:from-blue-700 dark:to-purple-700">
+            <div className="rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 p-4 text-white dark:from-slate-700 dark:to-slate-800">
               <h2 className="mb-3 text-2xl font-bold">
                 Welcome back, {session.user.name ?? session.user.username}! 👋
               </h2>
@@ -202,7 +202,7 @@ export default function HomePage() {
                 </div>
                 <div className="rounded-lg bg-white/10 p-2 backdrop-blur">
                   <div className="flex items-center space-x-1">
-                    <Users className="text-purple-300" size={16} />
+                    <Users className="text-emerald-300" size={16} />
                     <span className="text-sm text-blue-100 dark:text-blue-200">
                       Questions
                     </span>

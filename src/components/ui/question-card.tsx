@@ -140,18 +140,18 @@ export function QuestionCard({
             <div
               className={`rounded-xl border-2 p-8 transition-all duration-300 ${
                 userVote === "B"
-                  ? "border-purple-500 bg-purple-50 shadow-md dark:bg-purple-900/30"
+                  ? "border-red-500 bg-red-50 shadow-md dark:bg-red-900/30"
                   : userVote || showResults
                     ? "border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700"
                     : hoveredOption === "B"
-                      ? "border-purple-300 bg-purple-50 shadow-sm dark:bg-purple-900/20"
-                      : "border-gray-200 hover:border-purple-200 dark:border-gray-600 dark:hover:border-purple-400"
+                      ? "border-red-300 bg-red-50 shadow-sm dark:bg-red-900/20"
+                      : "border-gray-200 hover:border-red-200 dark:border-gray-600 dark:hover:border-red-400"
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="mb-4 flex items-center">
-                    <span className="mr-6 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-xl font-bold text-white">
+                    <span className="mr-6 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-xl font-bold text-white">
                       B
                     </span>
                     <span className="text-xl font-semibold text-gray-800 dark:text-gray-200">
@@ -164,7 +164,7 @@ export function QuestionCard({
                 </div>
                 {(userVote || showResults) && voteResults && (
                   <div className="ml-6 text-right">
-                    <div className="text-3xl font-bold text-purple-600">
+                    <div className="text-3xl font-bold text-red-600">
                       {voteResults.bPercentage}%
                     </div>
                     <div className="text-base text-gray-500">
@@ -177,7 +177,7 @@ export function QuestionCard({
                 <div className="mt-6 ml-18">
                   <div className="h-3 w-full rounded-full bg-gray-200 dark:bg-gray-600">
                     <div
-                      className="h-3 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 transition-all duration-1000 ease-out"
+                      className="h-3 rounded-full bg-gradient-to-r from-red-500 to-red-600 transition-all duration-1000 ease-out"
                       style={{ width: `${voteResults.bPercentage}%` }}
                     />
                   </div>
